@@ -7,11 +7,6 @@
 [38;2;215;153;33m[WARN][0m Test file /Users/ayo/catred_config/tests/unit/test_health_check.sh failed
 [38;2;104;157;106m[INFO][0m Executing test file: test_theme_system.sh
 [38;2;215;153;33m[WARN][0m Test file /Users/ayo/catred_config/tests/unit/test_theme_system.sh failed
-[38;2;104;157;106m[INFO][0m Running integration tests...
-[38;2;104;157;106m[INFO][0m Executing test file: test_install_uninstall.sh
-[38;2;215;153;33m[WARN][0m Test file /Users/ayo/catred_config/tests/integration/test_install_uninstall.sh failed
-[38;2;104;157;106m[INFO][0m Running e2e tests...
-[38;2;215;153;33m[WARN][0m No test files found in /Users/ayo/catred_config/tests/e2e
 [38;2;104;157;106m[INFO][0m ======================================
 [38;2;104;157;106m[INFO][0m Test Summary:
 [38;2;104;157;106m[INFO][0m   Total: 0

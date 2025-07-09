@@ -100,6 +100,59 @@ test_health_script_platform_detection() {
     return 0
 }
 
+test_health_script_structure() {
+    local content
+    content=$(cat "$HEALTH_SCRIPT")
+    
+    # Check for proper script structure
+    assert_contains "$content" "#!/bin/bash" "Should have bash shebang"
+    assert_contains "$content" "check()" "Should have check function"
+    assert_contains "$content" "run_cli_checks" "Should have CLI checks function"
+    assert_contains "$content" "run_symlink_checks" "Should have symlink checks function"
+    assert_contains "$content" "run_theme_checks" "Should have theme checks function"
+    
+    return 0
+}
+
+test_health_script_error_handling() {
+    local content
+    content=$(cat "$HEALTH_SCRIPT")
+    
+    # Check for error handling and safety
+    assert_contains "$content" "PASS_COUNT" "Should track passed tests"
+    assert_contains "$content" "FAIL_COUNT" "Should track failed tests"
+    assert_contains "$content" "exit.*FAIL_COUNT" "Should exit with error code on failures"
+    assert_not_contains "$content" "rm -rf" "Should not have dangerous commands"
+    
+    return 0
+}
+
+test_health_script_check_function() {
+    local content
+    content=$(cat "$HEALTH_SCRIPT")
+    
+    # Check for proper check function implementation
+    assert_contains "$content" "command -v" "Should use command -v for tool checks"
+    assert_contains "$content" "\\[.*PASS.*\\]" "Should show PASS status"
+    assert_contains "$content" "\\[.*FAIL.*\\]" "Should show FAIL status"
+    assert_contains "$content" "&> /dev/null" "Should suppress command output"
+    
+    return 0
+}
+
+test_health_script_counters() {
+    local content
+    content=$(cat "$HEALTH_SCRIPT")
+    
+    # Check for proper counter management
+    assert_contains "$content" "((PASS_COUNT++))" "Should increment pass counter"
+    assert_contains "$content" "((FAIL_COUNT++))" "Should increment fail counter"
+    assert_contains "$content" "PASS_COUNT=0" "Should initialize pass counter"
+    assert_contains "$content" "FAIL_COUNT=0" "Should initialize fail counter"
+    
+    return 0
+}
+
 # --- Test Execution ---
 
 # Run the tests
@@ -111,5 +164,9 @@ run_test "health_script_tool_checks" test_health_script_tool_checks "Health chec
 run_test "health_script_symlink_checks" test_health_script_symlink_checks "Health check validates symlinks"
 run_test "health_script_theme_checks" test_health_script_theme_checks "Health check validates theme system"
 run_test "health_script_platform_detection" test_health_script_platform_detection "Health check detects platform correctly"
+run_test "health_script_structure" test_health_script_structure "Health check has proper structure"
+run_test "health_script_error_handling" test_health_script_error_handling "Health check has error handling"
+run_test "health_script_check_function" test_health_script_check_function "Health check function works correctly"
+run_test "health_script_counters" test_health_script_counters "Health check counters work correctly"
 
 info "Unit tests for health check system completed"
