@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  ubuntu-test:
+    build:
+      context: ../..
+      dockerfile: tests/docker/Dockerfile.ubuntu
+    volumes:
+      - ../..:/home/testuser/catred_config
+    working_dir: /home/testuser/catred_config
+    command: ./tests/test_framework.sh
+    
+  ubuntu-interactive:
+    build:
+      context: ../..
+      dockerfile: tests/docker/Dockerfile.ubuntu
+    volumes:
+      - ../..:/home/testuser/catred_config
+    working_dir: /home/testuser/catred_config
+    command: bash
+    stdin_open: true
+    tty: true
+
+  shellcheck:
+    image: koalaman/shellcheck:stable
+    volumes:
+      - ../..:/mnt
+    working_dir: /mnt
+    command: >
+      sh -c "
+        find scripts -name '*.sh' -exec shellcheck {} \;
+        find tests -name '*.sh' -exec shellcheck {} \;
+      "
+
+  validation:
+    image: ubuntu:22.04
+    volumes:
+      - ../..:/workspace
+    working_dir: /workspace
+    command: >
+      bash -c "
+        apt-get update &&
+        apt-get install -y yamllint jq &&
+        find configs -name '*.yaml' -o -name '*.yml' | xargs yamllint -d relaxed &&
+        find configs -name '*.json' | xargs -I {} jq empty {}
+      "

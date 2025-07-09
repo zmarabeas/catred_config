@@ -1,0 +1,41 @@
+# Ubuntu test environment for Catred Config
+FROM ubuntu:22.04
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    bash \
+    git \
+    curl \
+    wget \
+    stow \
+    build-essential \
+    python3 \
+    python3-pip \
+    nodejs \
+    npm \
+    jq \
+    yamllint \
+    shellcheck \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create test user
+RUN useradd -m -s /bin/bash testuser
+
+# Set working directory
+WORKDIR /home/testuser/catred_config
+
+# Copy test files
+COPY . .
+
+# Set ownership
+RUN chown -R testuser:testuser /home/testuser/catred_config
+
+# Switch to test user
+USER testuser
+
+# Set environment variables
+ENV HOME=/home/testuser
+ENV PATH="/home/testuser/.local/bin:$PATH"
+
+# Run tests by default
+CMD ["./tests/test_framework.sh"]
