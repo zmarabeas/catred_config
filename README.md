@@ -99,20 +99,20 @@ direct script execution available:
 - [workflow guide](docs/workflow.md) - keybindings and daily usage
 - [specification](SPECIFICATION.md) - technical architecture
 
-## testing
+## Testing
 
-for ci/cd environments, basic validation tests exist:
-
+Run the comprehensive test suite:
 ```bash
-# installation validation
-./scripts/install/bootstrap.sh --dry-run
-
-# configuration validation  
-./scripts/maintenance/health-check.sh
-
-# theme system validation
-for theme in catppuccin-macchiato gruvbox tokyo-night-storm; do
-    ./scripts/config/switch-theme.sh $theme
-done
+./tests/test_framework.sh
 ```
-# catred_config
+
+Run specific tests:
+```bash
+./tests/unit/test_catred_cli.sh
+./tests/integration/test_install_uninstall.sh
+```
+
+Run Docker-based tests:
+```bash
+./tests/run_docker_tests.sh all
+```
