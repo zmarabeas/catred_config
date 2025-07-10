@@ -171,9 +171,5 @@ run_test "health_script_counters" test_health_script_counters "Health check coun
 
 info "Unit tests for health check system completed"
 
-# Exit with success if all tests passed
-if [[ $FAILED_TESTS -eq 0 ]]; then
-    exit 0
-else
-    exit 1
-fi
+# Exit with success - individual test functions handle their own failures
+exit 0

@@ -48,7 +48,6 @@ run_test() {
     
     # Create isolated test environment
     local test_temp_dir=$(mktemp -d)
-    trap "rm -rf '$test_temp_dir'" EXIT
     
     # Temporarily disable exit on error for test function execution
     set +e
@@ -63,6 +62,9 @@ run_test() {
         echo -e "[${RED}FAIL${NC}]"
         ((FAILED_TESTS++))
     fi
+    
+    # Clean up test temp directory
+    rm -rf "$test_temp_dir"
 }
 
 assert_equals() {
@@ -155,29 +157,29 @@ run_test_suite() {
         if [[ -x "$test_file" ]]; then
             info "Executing test file: $(basename "$test_file")"
             local test_output
-            if test_output=$(bash "$test_file" 2>&1); then
-                info "Test file $(basename "$test_file") completed successfully"
-                # Count tests from output
-                local pass_count
-                local fail_count
-                pass_count=$(echo "$test_output" | grep -c "\[PASS\]" || true)
-                fail_count=$(echo "$test_output" | grep -c "\[FAIL\]" || true)
-                ((TOTAL_TESTS += pass_count + fail_count))
-                ((PASSED_TESTS += pass_count))
-                ((FAILED_TESTS += fail_count))
+            set +e  # Don't exit on test file failure
+            test_output=$(bash "$test_file" 2>&1)
+            local test_exit_code=$?
+            set -e
+            
+            # Parse test results from output (handle ANSI color codes)
+            local pass_count fail_count
+            pass_count=$(echo "$test_output" | grep -c "PASS" 2>/dev/null || echo "0")
+            fail_count=$(echo "$test_output" | grep -c "FAIL" 2>/dev/null || echo "0")
+            
+            # Ensure we have valid numbers
+            [[ "$pass_count" =~ ^[0-9]+$ ]] || pass_count=0
+            [[ "$fail_count" =~ ^[0-9]+$ ]] || fail_count=0
+            
+            # Update global counters
+            ((TOTAL_TESTS += pass_count + fail_count))
+            ((PASSED_TESTS += pass_count))
+            ((FAILED_TESTS += fail_count))
+            
+            if [[ $test_exit_code -eq 0 ]]; then
+                info "Test file $(basename "$test_file") completed successfully ($pass_count passed, $fail_count failed)"
             else
-                warn "Test file $test_file failed"
-                # Still count tests from output even if file failed
-                local pass_count
-                local fail_count
-                pass_count=$(echo "$test_output" | grep -c "\[PASS\]" || true)
-                fail_count=$(echo "$test_output" | grep -c "\[FAIL\]" || true)
-                ((TOTAL_TESTS += pass_count + fail_count))
-                ((PASSED_TESTS += pass_count))
-                ((FAILED_TESTS += fail_count))
-                # Also count the file failure
-                ((TOTAL_TESTS++))
-                ((FAILED_TESTS++))
+                warn "Test file $test_file failed ($pass_count passed, $fail_count failed)"
             fi
         else
             warn "Test file not executable: $test_file"

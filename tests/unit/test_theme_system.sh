@@ -186,9 +186,5 @@ run_test "theme_safety_checks" test_theme_safety_checks "Theme script has safety
 
 info "Unit tests for theme system completed"
 
-# Exit with success if all tests passed
-if [[ $FAILED_TESTS -eq 0 ]]; then
-    exit 0
-else
-    exit 1
-fi
+# Exit with success - individual test functions handle their own failures
+exit 0

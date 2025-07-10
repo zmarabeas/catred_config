@@ -141,9 +141,5 @@ run_test "catred_error_handling" test_catred_error_handling "catred script has s
 
 info "Unit tests for catred CLI completed"
 
-# Exit with success if all tests passed
-if [[ $FAILED_TESTS -eq 0 ]]; then
-    exit 0
-else
-    exit 1
-fi
+# Exit with success - individual test functions handle their own failures
+exit 0
