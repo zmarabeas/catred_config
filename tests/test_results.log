@@ -10,20 +10,10 @@
 [38;2;104;157;106m[INFO][0m Executing test file: test_theme_system.sh
 [38;2;104;157;106m[INFO][0m Unit tests for theme system completed
 [38;2;104;157;106m[INFO][0m Test file test_theme_system.sh completed successfully (11 passed, 0 failed)
-[38;2;104;157;106m[INFO][0m Running integration tests...
-[38;2;104;157;106m[INFO][0m Executing test file: test_install_uninstall.sh
-[38;2;215;153;33m[SKIP][0m Skipping bootstrap platform detection test in CI environment
-[38;2;215;153;33m[SKIP][0m Skipping uninstall safety confirmation test in CI environment
-[38;2;215;153;33m[SKIP][0m Skipping install script safety checks test in CI environment
-[38;2;215;153;33m[SKIP][0m Skipping install script backup test in CI environment
-[38;2;104;157;106m[INFO][0m Integration tests for install/uninstall workflows completed
-[38;2;104;157;106m[INFO][0m Test file test_install_uninstall.sh completed successfully (20 passed, 0 failed)
-[38;2;104;157;106m[INFO][0m Running e2e tests...
-[38;2;215;153;33m[WARN][0m No test files found in /Users/ayo/catred_config/tests/e2e
 [38;2;104;157;106m[INFO][0m ======================================
 [38;2;104;157;106m[INFO][0m Test Summary:
-[38;2;104;157;106m[INFO][0m   Total: 52
-[38;2;104;157;106m[INFO][0m   Passed: 52
+[38;2;104;157;106m[INFO][0m   Total: 32
+[38;2;104;157;106m[INFO][0m   Passed: 32
 [38;2;104;157;106m[INFO][0m   Failed: 0
 [38;2;104;157;106m[INFO][0m   Skipped: 0
 [38;2;152;151;26m[PASS][0m All tests passed!
