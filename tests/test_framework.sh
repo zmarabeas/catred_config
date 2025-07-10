@@ -50,6 +50,10 @@ run_test() {
     
     printf "%-60s" "$test_description"
     
+    # Start timing
+    local start_time
+    start_time=$(date +%s.%N)
+    
     # Create isolated test environment
     local test_temp_dir=$(mktemp -d)
     
@@ -69,11 +73,24 @@ run_test() {
     fi
     set -e
     
+    # Calculate timing
+    local end_time duration
+    end_time=$(date +%s.%N)
+    duration=$(echo "$end_time - $start_time" | bc -l 2>/dev/null || echo "0.000")
+    
     if [[ $test_result -eq 0 ]]; then
-        echo -e "[${GREEN}PASS${NC}]"
+        if [[ "$VERBOSE_MODE" == "true" ]]; then
+            echo -e "[${GREEN}PASS${NC}] (${duration}s)"
+        else
+            echo -e "[${GREEN}PASS${NC}]"
+        fi
         ((PASSED_TESTS++))
     else
-        echo -e "[${RED}FAIL${NC}]"
+        if [[ "$VERBOSE_MODE" == "true" ]]; then
+            echo -e "[${RED}FAIL${NC}] (${duration}s)"
+        else
+            echo -e "[${RED}FAIL${NC}]"
+        fi
         ((FAILED_TESTS++))
     fi
     
@@ -189,6 +206,8 @@ run_test_suite() {
     local test_dir="$2"
     
     info "Running $test_suite tests..."
+    local suite_start_time
+    suite_start_time=$(date +%s.%N)
     
     local test_files
     test_files=$(discover_tests "$test_dir")
@@ -235,6 +254,15 @@ run_test_suite() {
             warn "Test file not executable: $test_file"
         fi
     done <<< "$test_files"
+    
+    # Calculate suite timing
+    local suite_end_time suite_duration
+    suite_end_time=$(date +%s.%N)
+    suite_duration=$(echo "$suite_end_time - $suite_start_time" | bc -l 2>/dev/null || echo "0.000")
+    
+    if [[ "$VERBOSE_MODE" == "true" ]]; then
+        info "$test_suite tests completed in ${suite_duration}s"
+    fi
 }
 
 # --- Test Report ---

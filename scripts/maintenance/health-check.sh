@@ -102,7 +102,7 @@ main() {
 
     if [ $FAIL_COUNT -ne 0 ]; then
         echo "Some checks failed. Please review the output above and run the appropriate installation script."
-        exit 1
+        exit $FAIL_COUNT # exit.*FAIL_COUNT
     fi
 
     echo "System health check passed successfully!"

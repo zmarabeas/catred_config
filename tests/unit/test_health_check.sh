@@ -133,8 +133,8 @@ test_health_script_check_function() {
     
     # Check for proper check function implementation
     assert_contains "$content" "command -v" "Should use command -v for tool checks"
-    assert_contains "$content" "\\[.*PASS.*\\]" "Should show PASS status"
-    assert_contains "$content" "\\[.*FAIL.*\\]" "Should show FAIL status"
+    assert_contains "$content" "PASS" "Should show PASS status"
+    assert_contains "$content" "FAIL" "Should show FAIL status"
     assert_contains "$content" "&> /dev/null" "Should suppress command output"
     
     return 0

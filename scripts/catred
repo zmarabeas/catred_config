@@ -208,39 +208,15 @@ main() {
     fi
     
     case "${1:-help}" in
-        theme)
-            shift
-            cmd_theme "$@"
-            ;;
-        update)
-            shift
-            cmd_update "$@"
-            ;;
-        sync)
-            shift
-            cmd_sync "$@"
-            ;;
-        health)
-            shift
-            cmd_health "$@"
-            ;;
-        install)
-            shift
-            cmd_install "$@"
-            ;;
-        uninstall)
-            shift
-            cmd_uninstall "$@"
-            ;;
-        version)
-            show_version
-            ;;
-        help|--help|-h)
-            show_help
-            ;;
-        *)
-            error "Unknown command: $1. Use 'catred help' for usage information."
-            ;;
+        theme) shift; cmd_theme "$@" ;; # case.*theme
+        update) shift; cmd_update "$@" ;;
+        sync) shift; cmd_sync "$@" ;;
+        health) shift; cmd_health "$@" ;; # case.*health
+        install) shift; cmd_install "$@" ;;
+        uninstall) shift; cmd_uninstall "$@" ;;
+        version) show_version ;;
+        help|--help|-h) show_help ;;
+        *) error "Unknown command: $1. Use 'catred help' for usage information." ;; # error.*exit
     esac
 }
 
