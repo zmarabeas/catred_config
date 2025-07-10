@@ -1,5 +1,4 @@
 {
-  // Editor Configuration
   "vim_mode": true,
   "theme": "Catppuccin Macchiato",
   "buffer_font_family": "JetBrains Mono Nerd Font",
@@ -7,7 +6,6 @@
   "ui_font_family": "JetBrains Mono Nerd Font",
   "ui_font_size": 12,
   
-  // Editor behavior
   "auto_save": "on_focus_change",
   "ensure_final_newline_on_save": true,
   "format_on_save": "on",
@@ -24,7 +22,6 @@
     "coloring": "indent_aware"
   },
   
-  // UI Configuration
   "show_inline_completions": true,
   "show_completion_documentation": true,
   "completion_documentation_secondary_query_debounce": 300,
@@ -46,7 +43,6 @@
     "folds": true
   },
   
-  // File and Project Settings
   "project_panel": {
     "button": true,
     "default_width": 240,
@@ -77,7 +73,6 @@
     "default_width": 240
   },
   
-  // Terminal Configuration
   "terminal": {
     "alternate_scroll": "off",
     "blinking": "terminal_controlled",
@@ -99,7 +94,6 @@
     "working_directory": "current_project_directory"
   },
   
-  // Language Server Configuration
   "languages": {
     "TypeScript": {
       "language_servers": ["typescript-language-server", "eslint"],
@@ -158,7 +152,6 @@
     }
   },
   
-  // Git Configuration
   "git": {
     "inline_blame": {
       "enabled": true,
@@ -166,7 +159,6 @@
     }
   },
   
-  // Search Configuration
   "search": {
     "whole_word": false,
     "case_sensitive": false,
@@ -174,7 +166,6 @@
     "regex": false
   },
   
-  // Assistant Configuration
   "assistant": {
     "enabled": true,
     "version": "2",
@@ -184,13 +175,11 @@
     }
   },
   
-  // Telemetry
   "telemetry": {
     "diagnostics": false,
     "metrics": false
   },
   
-  // Experimental Features
   "experimental": {
     "theme_overrides": {}
   }
