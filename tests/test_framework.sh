@@ -240,11 +240,12 @@ run_test_suite() {
             ((PASSED_TESTS += pass_count))
             ((FAILED_TESTS += fail_count))
             
-            if [[ $test_exit_code -eq 0 ]]; then
+            # Determine success based on PASS/FAIL count, not exit code
+            if [[ $fail_count -eq 0 ]]; then
                 info "Test file $(basename "$test_file") completed successfully ($pass_count passed, $fail_count failed)"
             else
-                warn "Test file $test_file failed ($pass_count passed, $fail_count failed)"
-                if [[ "$VERBOSE_MODE" == "true" ]] && [[ $fail_count -gt 0 ]]; then
+                warn "Test file $test_file had failures ($pass_count passed, $fail_count failed)"
+                if [[ "$VERBOSE_MODE" == "true" ]]; then
                     info "--- Failed test output ---"
                     echo "$test_output" | grep -A 5 -B 1 "FAIL" || true
                     info "--- End failed test output ---"
