@@ -107,7 +107,15 @@ install_packages() {
 
     # Install Zed
     info "Installing Zed editor..."
-    curl -fL https://zed.dev/install.sh | sh
+    ZED_INSTALLER="/tmp/zed-install.sh"
+    curl -fL https://zed.dev/install.sh -o "$ZED_INSTALLER"
+    if [[ -f "$ZED_INSTALLER" ]]; then
+        chmod +x "$ZED_INSTALLER"
+        bash "$ZED_INSTALLER"
+        rm -f "$ZED_INSTALLER"
+    else
+        warning "Failed to download Zed installer"
+    fi
 
     # Install Nerd Fonts
     info "Installing JetBrains Mono Nerd Font..."

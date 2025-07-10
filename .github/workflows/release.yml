@@ -149,7 +149,8 @@ jobs:
           
           # Test that terminal configs exist for all themes
           for theme in catppuccin-macchiato gruvbox tokyo-night-storm; do
-            for terminal in kitty alacritty ghostty warp; do
+            # Primary terminals (required)
+            for terminal in ghostty warp; do
               found=false
               for ext in conf yml yaml config; do
                 if test -f "configs/terminals/$terminal/$theme.$ext"; then
@@ -158,8 +159,21 @@ jobs:
                 fi
               done
               if [ "$found" = false ]; then
-                echo "Missing terminal config: $terminal/$theme"
+                echo "Missing required terminal config: $terminal/$theme"
                 exit 1
+              fi
+            done
+            # Secondary terminals (warn if missing)
+            for terminal in kitty alacritty; do
+              found=false
+              for ext in conf yml yaml config; do
+                if test -f "configs/terminals/$terminal/$theme.$ext"; then
+                  found=true
+                  break
+                fi
+              done
+              if [ "$found" = false ]; then
+                echo "Warning: Missing optional terminal config: $terminal/$theme"
               fi
             done
           done

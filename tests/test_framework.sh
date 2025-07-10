@@ -148,10 +148,30 @@ run_test_suite() {
     while IFS= read -r test_file; do
         if [[ -x "$test_file" ]]; then
             info "Executing test file: $(basename "$test_file")"
-            if bash "$test_file"; then
+            local test_output
+            if test_output=$(bash "$test_file" 2>&1); then
                 info "Test file $(basename "$test_file") completed successfully"
+                # Count tests from output
+                local pass_count
+                local fail_count
+                pass_count=$(echo "$test_output" | grep -c "\[PASS\]" || true)
+                fail_count=$(echo "$test_output" | grep -c "\[FAIL\]" || true)
+                ((TOTAL_TESTS += pass_count + fail_count))
+                ((PASSED_TESTS += pass_count))
+                ((FAILED_TESTS += fail_count))
             else
                 warn "Test file $test_file failed"
+                # Still count tests from output even if file failed
+                local pass_count
+                local fail_count
+                pass_count=$(echo "$test_output" | grep -c "\[PASS\]" || true)
+                fail_count=$(echo "$test_output" | grep -c "\[FAIL\]" || true)
+                ((TOTAL_TESTS += pass_count + fail_count))
+                ((PASSED_TESTS += pass_count))
+                ((FAILED_TESTS += fail_count))
+                # Also count the file failure
+                ((TOTAL_TESTS++))
+                ((FAILED_TESTS++))
             fi
         else
             warn "Test file not executable: $test_file"

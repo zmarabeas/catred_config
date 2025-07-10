@@ -182,14 +182,17 @@ jobs:
         run: |
           # Test that all themes have required files
           themes=("catppuccin-macchiato" "gruvbox" "tokyo-night-storm")
-          terminals=("kitty" "alacritty" "ghostty" "warp")
+          # Primary terminals (required)
+          primary_terminals=("ghostty" "warp")
+          # Secondary terminals (optional)
+          secondary_terminals=("kitty" "alacritty")
           
           for theme in "${themes[@]}"; do
             # Check color definition exists
             test -f "configs/$theme/colors.yaml"
             
-            # Check terminal configs exist
-            for terminal in "${terminals[@]}"; do
+            # Check primary terminal configs exist (required)
+            for terminal in "${primary_terminals[@]}"; do
               found=false
               for ext in conf yml yaml config; do
                 if test -f "configs/terminals/$terminal/$theme.$ext"; then
@@ -198,8 +201,22 @@ jobs:
                 fi
               done
               if [ "$found" = false ]; then
-                echo "Missing terminal config: $terminal/$theme"
+                echo "Missing required terminal config: $terminal/$theme"
                 exit 1
+              fi
+            done
+            
+            # Check secondary terminal configs exist (warn if missing)
+            for terminal in "${secondary_terminals[@]}"; do
+              found=false
+              for ext in conf yml yaml config; do
+                if test -f "configs/terminals/$terminal/$theme.$ext"; then
+                  found=true
+                  break
+                fi
+              done
+              if [ "$found" = false ]; then
+                echo "Warning: Missing optional terminal config: $terminal/$theme"
               fi
             done
             

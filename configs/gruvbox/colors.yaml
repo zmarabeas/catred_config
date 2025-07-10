@@ -11,7 +11,7 @@ colors:
     bg2: "#504945"
     bg3: "#665c54"
     bg4: "#7c6f64"
-  
+
   foreground:
     main: "#ebdbb2"
     fg0: "#fbf1c7"
@@ -19,7 +19,7 @@ colors:
     fg2: "#d5c4a1"
     fg3: "#bdae93"
     fg4: "#a89984"
-  
+
   accent:
     red: "#cc241d"
     green: "#98971a"
@@ -29,7 +29,7 @@ colors:
     aqua: "#689d6a"
     orange: "#d65d0e"
     gray: "#928374"
-  
+
   bright:
     red: "#fb4934"
     green: "#b8bb26"
@@ -38,7 +38,7 @@ colors:
     purple: "#d3869b"
     aqua: "#8ec07c"
     orange: "#fe8019"
-  
+
   neutral:
     red: "#cc241d"
     green: "#98971a"
@@ -47,7 +47,7 @@ colors:
     purple: "#b16286"
     aqua: "#689d6a"
     orange: "#d65d0e"
-  
+
   faded:
     red: "#9d0006"
     green: "#79740e"
@@ -69,7 +69,7 @@ formats:
     aqua: "689d6a"
     orange: "d65d0e"
     gray: "928374"
-  
+
   rgb:
     bg: [40, 40, 40]
     fg: [235, 219, 178]
@@ -91,7 +91,7 @@ platform_specific:
       aqua: "0xff689d6a"
       red: "0xffcc241d"
       green: "0xff98971a"
-  
+
   linux:
     i3:
       bg: "#282828"
@@ -100,7 +100,7 @@ platform_specific:
       aqua: "#689d6a"
       red: "#cc241d"
       green: "#98971a"
-  
+
   windows:
     yasb:
       bg: "#282828"
@@ -134,7 +134,7 @@ application_mappings:
     focused: "#689d6a"
     unfocused: "#928374"
     urgent: "#cc241d"
-  
+
   status_bar:
     background: "#282828"
     foreground: "#ebdbb2"
@@ -142,7 +142,7 @@ application_mappings:
     warning: "#fe8019"
     error: "#cc241d"
     success: "#98971a"
-  
+
   launcher:
     background: "#282828"
     foreground: "#ebdbb2"
@@ -183,35 +183,35 @@ kitty_theme:
   selection_foreground: "#655b53"
   selection_background: "#ebdbb2"
   url_color: "#d65d0e"
-  
+
   # Black
   color0: "#282828"
   color8: "#928374"
-  
+
   # Red
   color1: "#cc241d"
   color9: "#fb4934"
-  
+
   # Green
   color2: "#98971a"
   color10: "#b8bb26"
-  
+
   # Yellow
   color3: "#d79921"
   color11: "#fabd2f"
-  
+
   # Blue
   color4: "#458588"
   color12: "#83a598"
-  
+
   # Magenta
   color5: "#b16286"
   color13: "#d3869b"
-  
+
   # Cyan
   color6: "#689d6a"
   color14: "#8ec07c"
-  
+
   # White
   color7: "#a89984"
   color15: "#ebdbb2"
@@ -221,7 +221,7 @@ alacritty_theme:
   primary:
     background: "#282828"
     foreground: "#ebdbb2"
-  
+
   normal:
     black: "#282828"
     red: "#cc241d"
@@ -231,7 +231,7 @@ alacritty_theme:
     magenta: "#b16286"
     cyan: "#689d6a"
     white: "#a89984"
-  
+
   bright:
     black: "#928374"
     red: "#fb4934"
@@ -251,7 +251,7 @@ ghostty_theme:
   cursor_text: "282828"
   selection_background: "d5c4a1"
   selection_foreground: "282828"
-  
+
   # ANSI Colors (palette format)
   palette:
     0: "282828"  # black
@@ -270,3 +270,4 @@ ghostty_theme:
     13: "d3869b" # bright magenta
     14: "8ec07c" # bright cyan
     15: "ebdbb2" # bright white
+

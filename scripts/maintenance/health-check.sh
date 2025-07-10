@@ -25,7 +25,7 @@ check() {
     local command_to_run="$2"
     
     printf "%-60s" "$description"
-    if eval "$command_to_run" &> /dev/null; then
+    if bash -c "$command_to_run" &> /dev/null; then
         echo -e "[${GREEN}PASS${NC}]"
         ((PASS_COUNT++))
     else

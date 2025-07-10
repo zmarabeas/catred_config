@@ -9,8 +9,9 @@
 [38;2;215;153;33m[WARN][0m Test file /Users/ayo/catred_config/tests/unit/test_theme_system.sh failed
 [38;2;104;157;106m[INFO][0m ======================================
 [38;2;104;157;106m[INFO][0m Test Summary:
-[38;2;104;157;106m[INFO][0m   Total: 0
+[38;2;104;157;106m[INFO][0m   Total: 3
 [38;2;104;157;106m[INFO][0m   Passed: 0
-[38;2;104;157;106m[INFO][0m   Failed: 0
+[38;2;104;157;106m[INFO][0m   Failed: 3
 [38;2;104;157;106m[INFO][0m   Skipped: 0
-[38;2;152;151;26m[PASS][0m All tests passed!
+[38;2;204;36;29m[FAIL][0m Some tests failed!
+[38;2;104;157;106m[INFO][0m Test report generated: /Users/ayo/catred_config/tests/test_report.html
