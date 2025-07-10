@@ -1,6 +1,5 @@
 # Alacritty Terminal Configuration - Gruvbox Dark Theme
 # Cross-platform terminal configuration for Catred Config
-
 # Font Configuration
 font:
   normal:
@@ -16,7 +15,6 @@ font:
     family: "JetBrains Mono Nerd Font"
     style: Bold Italic
   size: 12
-
 # Window Configuration
 window:
   padding:
@@ -28,26 +26,21 @@ window:
   startup_mode: Windowed
   title: Alacritty
   dynamic_title: true
-
 # Scrolling
 scrolling:
   history: 10000
   multiplier: 3
-
 # Colors - Gruvbox Dark
 colors:
   primary:
     background: '#282828'
     foreground: '#ebdbb2'
-  
   cursor:
     text: '#282828'
     cursor: '#d79921'
-  
   selection:
     text: '#282828'
     background: '#d5c4a1'
-  
   normal:
     black: '#282828'
     red: '#cc241d'
@@ -57,7 +50,6 @@ colors:
     magenta: '#b16286'
     cyan: '#689d6a'
     white: '#a89984'
-  
   bright:
     black: '#928374'
     red: '#fb4934'
@@ -67,22 +59,19 @@ colors:
     magenta: '#d3869b'
     cyan: '#8ec07c'
     white: '#ebdbb2'
-
 # Bell
 bell:
   animation: EaseOutExpo
   duration: 0
   color: '#d79921'
-
 # Mouse
 mouse:
   hide_when_typing: true
-
 # Terminal Features
 live_config_reload: true
-
 # Shell (use default shell)
 shell:
   program: /bin/bash
   args:
     - --login
+

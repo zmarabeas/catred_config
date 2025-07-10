@@ -50,7 +50,13 @@ run_test() {
     local test_temp_dir=$(mktemp -d)
     trap "rm -rf '$test_temp_dir'" EXIT
     
-    if "$test_function" 2>/dev/null; then
+    # Temporarily disable exit on error for test function execution
+    set +e
+    "$test_function" 2>/dev/null
+    local test_result=$?
+    set -e
+    
+    if [[ $test_result -eq 0 ]]; then
         echo -e "[${GREEN}PASS${NC}]"
         ((PASSED_TESTS++))
     else

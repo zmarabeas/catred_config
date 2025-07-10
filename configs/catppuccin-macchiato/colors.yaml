@@ -1,7 +1,6 @@
 name: "Catppuccin Macchiato"
 author: "catppuccin"
 description: "Soothing pastel theme - Macchiato variant"
-
 colors:
   background:
     main: "#24273a"
@@ -11,12 +10,10 @@ colors:
     overlay0: "#6e738d"
     overlay1: "#8087a2"
     overlay2: "#939ab7"
-  
   foreground:
     main: "#cad3f5"
     subtext0: "#a5adcb"
     subtext1: "#b8c0e0"
-  
   accent:
     rosewater: "#f4dbd6"
     flamingo: "#f0c6c6"
@@ -32,12 +29,10 @@ colors:
     sapphire: "#7dc4e4"
     blue: "#8aadf4"
     lavender: "#b7bdf8"
-  
   neutral:
     black: "#24273a"
     white: "#cad3f5"
     gray: "#6e738d"
-
 formats:
   hex:
     bg: "24273a"
@@ -50,7 +45,6 @@ formats:
     aqua: "8bd5ca"
     orange: "f5a97f"
     gray: "6e738d"
-  
   rgb:
     bg: [36, 39, 58]
     fg: [202, 211, 245]
@@ -62,7 +56,6 @@ formats:
     aqua: [139, 213, 202]
     orange: [245, 169, 127]
     gray: [110, 115, 141]
-
 platform_specific:
   macos:
     sketchybar:
@@ -72,7 +65,6 @@ platform_specific:
       aqua: "0xff8bd5ca"
       red: "0xffed8796"
       green: "0xffa6da95"
-  
   linux:
     i3:
       bg: "#24273a"
@@ -81,7 +73,6 @@ platform_specific:
       aqua: "#8bd5ca"
       red: "#ed8796"
       green: "#a6da95"
-  
   windows:
     yasb:
       bg: "#24273a"
@@ -90,7 +81,6 @@ platform_specific:
       aqua: "#8bd5ca"
       red: "#ed8796"
       green: "#a6da95"
-
 terminal_colors:
   ansi:
     black: "#494d64"
@@ -109,13 +99,11 @@ terminal_colors:
     bright_magenta: "#c6a0f6"
     bright_cyan: "#8bd5ca"
     bright_white: "#cad3f5"
-
 application_mappings:
   window_manager:
     focused: "#8bd5ca"
     unfocused: "#6e738d"
     urgent: "#ed8796"
-  
   status_bar:
     background: "#24273a"
     foreground: "#cad3f5"
@@ -123,13 +111,11 @@ application_mappings:
     warning: "#f5a97f"
     error: "#ed8796"
     success: "#a6da95"
-  
   launcher:
     background: "#24273a"
     foreground: "#cad3f5"
     selected: "#eed49f"
     match: "#8bd5ca"
-
 # Warp terminal theme format
 warp_theme:
   name: "Catppuccin Macchiato"
@@ -156,7 +142,6 @@ warp_theme:
       magenta: "#c6a0f6"
       cyan: "#8bd5ca"
       white: "#a5adcb"
-
 # Kitty terminal theme format
 kitty_theme:
   foreground: "#cad3f5"
@@ -164,53 +149,41 @@ kitty_theme:
   selection_foreground: "#24273a"
   selection_background: "#f4dbd6"
   url_color: "#f5a97f"
-  
   # Black
   color0: "#494d64"
   color8: "#5b6078"
-  
   # Red
   color1: "#ed8796"
   color9: "#ed8796"
-  
   # Green
   color2: "#a6da95"
   color10: "#a6da95"
-  
   # Yellow
   color3: "#eed49f"
   color11: "#eed49f"
-  
   # Blue
   color4: "#8aadf4"
   color12: "#8aadf4"
-  
   # Magenta
   color5: "#c6a0f6"
   color13: "#c6a0f6"
-  
   # Cyan
   color6: "#8bd5ca"
   color14: "#8bd5ca"
-  
   # White
   color7: "#b8c0e0"
   color15: "#cad3f5"
-
 # Alacritty terminal theme format
 alacritty_theme:
   primary:
     background: "#24273a"
     foreground: "#cad3f5"
-  
   cursor:
     text: "#24273a"
     cursor: "#f4dbd6"
-  
   selection:
     text: "#24273a"
     background: "#f4dbd6"
-  
   normal:
     black: "#494d64"
     red: "#ed8796"
@@ -220,7 +193,6 @@ alacritty_theme:
     magenta: "#c6a0f6"
     cyan: "#8bd5ca"
     white: "#b8c0e0"
-  
   bright:
     black: "#5b6078"
     red: "#ed8796"
@@ -230,7 +202,6 @@ alacritty_theme:
     magenta: "#c6a0f6"
     cyan: "#8bd5ca"
     white: "#cad3f5"
-
 # Ghostty terminal theme format
 ghostty_theme:
   name: "Catppuccin Macchiato"
@@ -240,22 +211,22 @@ ghostty_theme:
   cursor_text: "24273a"
   selection_background: "f4dbd6"
   selection_foreground: "24273a"
-  
   # ANSI Colors (palette format)
   palette:
-    0: "494d64"  # black
-    1: "ed8796"  # red
-    2: "a6da95"  # green
-    3: "eed49f"  # yellow
-    4: "8aadf4"  # blue
-    5: "c6a0f6"  # magenta
-    6: "8bd5ca"  # cyan
-    7: "b8c0e0"  # white
-    8: "5b6078"  # bright black
-    9: "ed8796"  # bright red
+    0: "494d64" # black
+    1: "ed8796" # red
+    2: "a6da95" # green
+    3: "eed49f" # yellow
+    4: "8aadf4" # blue
+    5: "c6a0f6" # magenta
+    6: "8bd5ca" # cyan
+    7: "b8c0e0" # white
+    8: "5b6078" # bright black
+    9: "ed8796" # bright red
     10: "a6da95" # bright green
     11: "eed49f" # bright yellow
     12: "8aadf4" # bright blue
     13: "c6a0f6" # bright magenta
     14: "8bd5ca" # bright cyan
     15: "cad3f5" # bright white
+
