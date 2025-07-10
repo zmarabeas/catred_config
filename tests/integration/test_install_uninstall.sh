@@ -259,3 +259,10 @@ run_test "install_script_shell_configuration" test_install_script_shell_configur
 run_test "safety_mechanisms" test_safety_mechanisms "Scripts have proper safety mechanisms"
 
 info "Integration tests for install/uninstall workflows completed"
+
+# Exit with success if all tests passed
+if [[ $FAILED_TESTS -eq 0 ]]; then
+    exit 0
+else
+    exit 1
+fi

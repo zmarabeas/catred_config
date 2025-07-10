@@ -1,0 +1,210 @@
+[
+  // Editor actions
+  {
+    "context": "Editor",
+    "bindings": {
+      // Basic vim-like navigation
+      "ctrl-h": "vim::Left",
+      "ctrl-j": "vim::Down",
+      "ctrl-k": "vim::Up",
+      "ctrl-l": "vim::Right",
+      
+      // Window management
+      "alt-h": "pane::ActivateLeftPane",
+      "alt-j": "pane::ActivateDownPane",
+      "alt-k": "pane::ActivateUpPane",
+      "alt-l": "pane::ActivateRightPane",
+      
+      // Pane splitting
+      "alt-|": "pane::SplitVertical",
+      "alt--": "pane::SplitHorizontal",
+      
+      // File operations
+      "space f f": "file_finder::Toggle",
+      "space f r": "recent_projects::Toggle",
+      "space f s": "workspace::Save",
+      "space f n": "workspace::NewFile",
+      
+      // Search operations
+      "space /": "search::Deploy",
+      "space s g": "search::DeployGlobal",
+      "space s w": "search::SelectWord",
+      
+      // Buffer operations
+      "space b b": "tab_switcher::Toggle",
+      "space b d": "pane::CloseActiveItem",
+      "space b n": "pane::ActivateNextItem",
+      "space b p": "pane::ActivatePrevItem",
+      
+      // Git operations
+      "space g s": "git::OpenRepository",
+      "space g b": "git::OpenBranches",
+      "space g h": "git::OpenHistory",
+      "space g d": "git::OpenDiff",
+      
+      // Terminal
+      "space t t": "terminal_panel::ToggleFocus",
+      "space t f": "terminal_panel::ToggleFocus",
+      
+      // Project panel
+      "space e": "project_panel::ToggleFocus",
+      "space o": "outline_panel::ToggleFocus",
+      
+      // Diagnostics
+      "space d d": "diagnostics::Deploy",
+      "space d n": "diagnostics::GoToNextDiagnostic",
+      "space d p": "diagnostics::GoToPrevDiagnostic",
+      
+      // Code actions
+      "space c a": "editor::ToggleCodeActions",
+      "space c f": "editor::Format",
+      "space c r": "editor::Rename",
+      
+      // LSP
+      "g d": "editor::GoToDefinition",
+      "g r": "editor::FindAllReferences",
+      "g i": "editor::GoToImplementation",
+      "g t": "editor::GoToTypeDefinition",
+      "K": "editor::Hover",
+      
+      // Quick actions
+      "space space": "file_finder::Toggle",
+      "space ,": "tab_switcher::Toggle",
+      "space :": "command_palette::Toggle",
+      
+      // Fold operations
+      "z o": "editor::UnfoldAtCursor",
+      "z c": "editor::FoldAtCursor",
+      "z R": "editor::UnfoldAll",
+      "z M": "editor::FoldAll",
+      
+      // Selection
+      "space v": "editor::SelectAll",
+      
+      // Commenting
+      "space /": "editor::ToggleComments",
+      
+      // Zen mode
+      "space z": "workspace::ToggleCenteredLayout"
+    }
+  },
+  
+  // Vim-specific bindings
+  {
+    "context": "vim_mode == normal",
+    "bindings": {
+      // Window navigation
+      "ctrl-w h": "pane::ActivateLeftPane",
+      "ctrl-w j": "pane::ActivateDownPane", 
+      "ctrl-w k": "pane::ActivateUpPane",
+      "ctrl-w l": "pane::ActivateRightPane",
+      "ctrl-w q": "pane::CloseActiveItem",
+      "ctrl-w v": "pane::SplitVertical",
+      "ctrl-w s": "pane::SplitHorizontal",
+      
+      // Buffer navigation
+      "[ b": "pane::ActivatePrevItem",
+      "] b": "pane::ActivateNextItem",
+      "space b d": "pane::CloseActiveItem",
+      
+      // Diagnostic navigation
+      "[ d": "diagnostics::GoToPrevDiagnostic",
+      "] d": "diagnostics::GoToNextDiagnostic",
+      
+      // Git hunk navigation
+      "[ h": "git::GoToPrevHunk",
+      "] h": "git::GoToNextHunk",
+      
+      // Center screen
+      "z z": "editor::ScrollCursorCenter",
+      "z t": "editor::ScrollCursorTop",
+      "z b": "editor::ScrollCursorBottom"
+    }
+  },
+  
+  // Insert mode bindings
+  {
+    "context": "vim_mode == insert",
+    "bindings": {
+      // Quick escape
+      "j j": "vim::NormalBefore",
+      "j k": "vim::NormalBefore",
+      "k j": "vim::NormalBefore",
+      
+      // Completion
+      "ctrl-n": "editor::ShowCompletions",
+      "ctrl-p": "editor::ShowCompletions"
+    }
+  },
+  
+  // Visual mode bindings
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      // Indentation
+      ">": "editor::Indent",
+      "<": "editor::Outdent",
+      
+      // Move lines
+      "J": "editor::MoveLineDown",
+      "K": "editor::MoveLineUp"
+    }
+  },
+  
+  // Terminal bindings
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-h": "pane::ActivateLeftPane",
+      "ctrl-j": "pane::ActivateDownPane",
+      "ctrl-k": "pane::ActivateUpPane",
+      "ctrl-l": "pane::ActivateRightPane",
+      "cmd-t": "terminal_panel::ToggleFocus",
+      "ctrl-`": "terminal_panel::ToggleFocus"
+    }
+  },
+  
+  // Project panel bindings
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "A": "project_panel::NewDirectory",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Delete",
+      "x": "project_panel::Cut",
+      "c": "project_panel::Copy",
+      "p": "project_panel::Paste",
+      "enter": "project_panel::Open",
+      "space": "project_panel::ToggleExpanded"
+    }
+  },
+  
+  // Global bindings
+  {
+    "bindings": {
+      // Quick save
+      "cmd-s": "workspace::Save",
+      "ctrl-s": "workspace::Save",
+      
+      // Quick quit
+      "cmd-q": "zed::Quit",
+      
+      // Toggle panels
+      "cmd-b": "project_panel::ToggleFocus",
+      "cmd-j": "terminal_panel::ToggleFocus",
+      
+      // New tab/window
+      "cmd-t": "workspace::NewFile",
+      "cmd-n": "workspace::NewWindow",
+      
+      // Close tab
+      "cmd-w": "pane::CloseActiveItem",
+      
+      // Zoom
+      "cmd-=": "zed::IncreaseBufferFontSize",
+      "cmd--": "zed::DecreaseBufferFontSize",
+      "cmd-0": "zed::ResetBufferFontSize"
+    }
+  }
+]

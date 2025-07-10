@@ -185,3 +185,10 @@ run_test "theme_validation_logic" test_theme_validation_logic "Theme validation 
 run_test "theme_safety_checks" test_theme_safety_checks "Theme script has safety checks"
 
 info "Unit tests for theme system completed"
+
+# Exit with success if all tests passed
+if [[ $FAILED_TESTS -eq 0 ]]; then
+    exit 0
+else
+    exit 1
+fi

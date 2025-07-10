@@ -1,0 +1,155 @@
+# YASB (Yet Another Status Bar) Configuration
+# Dynamic theme loading based on current selection
+
+komorebi:
+  start_command: "komorebic start --whkd"
+  stop_command: "komorebic stop --whkd"
+  reload_command: "komorebic reload-configuration"
+
+bars:
+  yasb-bar:
+    enabled: true
+    screens: ['*']
+    class_name: "yasb-bar"
+    alignment:
+      position: "top"
+      center: false
+    blur_effect:
+      enabled: true
+      acrylic: false
+      dark: true
+    window_flags:
+      always_on_top: false
+      windows_app_bar: true
+    dimensions:
+      width: "100%"
+      height: 30
+    padding:
+      top: 4
+      left: 0
+      bottom: 4
+      right: 0
+    widgets:
+      left:
+        [
+          "komorebi_workspaces",
+          "komorebi_active_layout"
+        ]
+      center:
+        [
+          "active_window"
+        ]
+      right:
+        [
+          "cpu",
+          "memory", 
+          "volume",
+          "network",
+          "battery",
+          "clock"
+        ]
+
+widgets:
+  active_window:
+    type: "yasb.active_window.ActiveWindowWidget"
+    options:
+      label: "{win[title]}"
+      label_alt: "[class_name='{win[class_name]}' exe='{win[process][name]}' hwnd={win[hwnd]}]"
+      label_no_window: ""
+      max_length: 48
+      max_length_ellipsis: "..."
+      monitor_exclusive: true
+
+  battery:
+    type: "yasb.battery.BatteryWidget"
+    options:
+      label: "{icon} {percent}%"
+      label_alt: "{icon} {percent}% | time: {time_remaining}"
+      update_interval: 60
+      charging_options:
+        icon_format: "󰂄"
+      status_icons:
+        icon_charging: "󰂄"
+        icon_critical: ""
+        icon_low: ""
+        icon_medium: ""
+        icon_high: ""
+        icon_full: ""
+
+  clock:
+    type: "yasb.clock.ClockWidget"
+    options:
+      label: "{%H:%M}"
+      label_alt: "{%A, %B %d, %Y %H:%M:%S}"
+      update_interval: 1
+      timezones: []
+
+  cpu:
+    type: "yasb.cpu.CpuWidget"
+    options:
+      label: "󰻠 {info[histograms][cpu_percent]:.0f}%"
+      label_alt: "󰻠 {info[histograms][cpu_percent]:.0f}%"
+      update_interval: 2
+      histogram_icons:
+        - '▁'   # 0%
+        - '▂'   # 10%
+        - '▃'   # 20%
+        - '▄'   # 30%
+        - '▅'   # 40%
+        - '▆'   # 50%
+        - '▇'   # 60%
+        - '█'   # 70%+
+
+  komorebi_active_layout:
+    type: "yasb.komorebi.KomorebiActiveLayoutWidget"
+    options:
+      hide_if_offline: false
+      label: "[{data}]"
+      label_alt: "{data}"
+      label_offline: "[offline]"
+
+  komorebi_workspaces:
+    type: "yasb.komorebi.KomorebiWorkspacesWidget"
+    options:
+      label_offline: "Komorebi Offline"
+      label_workspace_btn: "{index}"
+      label_default_name: "{index}"
+      label_zero_index: false
+      hide_empty_workspaces: false
+
+  memory:
+    type: "yasb.memory.MemoryWidget"
+    options:
+      label: "󰍛 {virtual_mem[percent]:.0f}%"
+      label_alt: "󰍛 {virtual_mem[percent]:.0f}%"
+      update_interval: 2
+
+  network:
+    type: "yasb.network.NetworkWidget"
+    options:
+      label: "{wifi[wifi_ssid]}"
+      label_alt: "{wifi[wifi_ssid]} | {wifi[signal_strength]}"
+      label_disconnected: "󰤭 Disconnected"
+      update_interval: 5
+      wifi_icons:
+        - "󰤯"  # 0% strength (unreachable)
+        - "󰤟"  # 1-25% strength
+        - "󰤢"  # 26-50% strength  
+        - "󰤥"  # 51-75% strength
+        - "󰤨"  # 76-100% strength (full)
+      ethernet_icons:
+        - "󰈀"  # connected
+      unknown_icon: "󰈂"
+
+  volume:
+    type: "yasb.volume.VolumeWidget"
+    options:
+      label: "󰕾 {level}%"
+      label_alt: "{icon} {level}%"
+      volume_icons:
+        - "󰝟"  # muted
+        - "󰕿"  # 0-25%
+        - "󰖀"  # 26-75%
+        - "󰕾"  # 76-100%
+      callbacks:
+        on_right: "exec cmd /c start ms-settings:sound"

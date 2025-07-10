@@ -170,3 +170,10 @@ run_test "health_script_check_function" test_health_script_check_function "Healt
 run_test "health_script_counters" test_health_script_counters "Health check counters work correctly"
 
 info "Unit tests for health check system completed"
+
+# Exit with success if all tests passed
+if [[ $FAILED_TESTS -eq 0 ]]; then
+    exit 0
+else
+    exit 1
+fi

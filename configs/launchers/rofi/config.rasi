@@ -1,0 +1,27 @@
+/*
+ * Rofi Theme Configuration
+ * Dynamic theme loading based on current selection
+ */
+
+configuration {
+    modes: "drun,run,window,ssh";
+    font: "JetBrains Mono Nerd Font 12";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    display-drun: "Applications";
+    display-run: "Commands";
+    display-window: "Windows";
+    display-ssh: "SSH";
+    drun-display-format: "{name}";
+    disable-history: false;
+    hide-scrollbar: true;
+    sidebar-mode: false;
+    kb-cancel: "Escape,Control+c";
+    kb-accept-entry: "Return,KP_Enter";
+    kb-mode-next: "Tab";
+    kb-mode-previous: "ISO_Left_Tab";
+    kb-row-up: "Up,Control+k";
+    kb-row-down: "Down,Control+j";
+}
+
+@import "theme.rasi"

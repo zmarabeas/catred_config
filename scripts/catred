@@ -1,0 +1,248 @@
+#!/bin/bash
+#
+# Catred Config - Unified CLI Interface
+#
+# Main command-line interface for managing the Catred development environment.
+# Provides subcommands for theme management, updates, health checks, and more.
+#
+
+set -e
+
+# --- Configuration ---
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Colors for output
+RED='\033[38;2;204;36;29m'
+GREEN='\033[38;2;152;151;26m'
+YELLOW='\033[38;2;215;153;33m'
+BLUE='\033[38;2;69;133;136m'
+PURPLE='\033[38;2;177;98;134m'
+AQUA='\033[38;2;104;157;106m'
+NC='\033[0m'
+
+# Logging functions
+info() { echo -e "${AQUA}INFO:${NC} $*"; }
+success() { echo -e "${GREEN}SUCCESS:${NC} $*"; }
+warning() { echo -e "${YELLOW}WARNING:${NC} $*"; }
+error() { echo -e "${RED}ERROR:${NC} $*"; exit 1; }
+
+# --- Helper Functions ---
+show_version() {
+    echo "Catred Config v0.1.0"
+    echo "Cross-platform development environment manager"
+}
+
+show_help() {
+    cat << EOF
+Catred Config - Unified Development Environment Manager
+
+USAGE:
+    catred [COMMAND] [OPTIONS]
+
+COMMANDS:
+    theme [name]    Switch theme or show current theme
+                    Available: catppuccin-macchiato, gruvbox, tokyo-night-storm
+    
+    update          Update all components and plugins
+    sync            Sync local configuration changes back to repo
+    health          Run comprehensive system health check
+    install         Run the installation process
+    uninstall       Remove all components and configurations
+    
+    help            Show this help message
+    version         Show version information
+
+EXAMPLES:
+    catred theme                    # Show current theme
+    catred theme gruvbox           # Switch to gruvbox theme
+    catred health                  # Check system health
+    catred update                  # Update all components
+
+For more information, visit: https://github.com/user/catred_config
+EOF
+}
+
+# --- Subcommand Functions ---
+cmd_theme() {
+    local theme_script="$REPO_DIR/scripts/config/switch-theme.sh"
+    
+    if [[ ! -x "$theme_script" ]]; then
+        error "Theme script not found or not executable: $theme_script"
+    fi
+    
+    if [[ $# -eq 0 ]]; then
+        # Show current theme and available options
+        "$theme_script"
+    else
+        # Switch to specified theme
+        local theme="$1"
+        info "Switching to theme: $theme"
+        "$theme_script" "$theme"
+    fi
+}
+
+cmd_update() {
+    info "Updating Catred Config components..."
+    
+    local update_script="$REPO_DIR/scripts/maintenance/update-all.sh"
+    if [[ -x "$update_script" ]]; then
+        "$update_script"
+    else
+        warning "Update script not found, running individual update commands..."
+        
+        # Update Neovim plugins
+        if command -v nvim &> /dev/null; then
+            info "Updating Neovim plugins..."
+            nvim --headless -c "autocmd User LazyDone ++once qall" -c "Lazy! sync" &
+            wait
+            success "Neovim plugins updated"
+        fi
+        
+        # Update Homebrew packages (macOS)
+        if command -v brew &> /dev/null; then
+            info "Updating Homebrew packages..."
+            brew update && brew upgrade
+            success "Homebrew packages updated"
+        fi
+        
+        # Update system packages (Linux)
+        if command -v apt &> /dev/null; then
+            info "Updating system packages..."
+            sudo apt update && sudo apt upgrade -y
+            success "System packages updated"
+        elif command -v dnf &> /dev/null; then
+            info "Updating system packages..."
+            sudo dnf upgrade -y
+            success "System packages updated"
+        elif command -v pacman &> /dev/null; then
+            info "Updating system packages..."
+            sudo pacman -Syu --noconfirm
+            success "System packages updated"
+        fi
+    fi
+    
+    success "Update complete!"
+}
+
+cmd_sync() {
+    info "Syncing local configuration changes..."
+    
+    local sync_script="$REPO_DIR/scripts/maintenance/sync-configs.sh"
+    if [[ -x "$sync_script" ]]; then
+        "$sync_script"
+    else
+        warning "Sync script not found, performing basic sync..."
+        
+        # Basic sync - copy commonly modified configs back to repo
+        local configs_to_sync=(
+            "$HOME/.config/nvim:$REPO_DIR/configs/nvim"
+            "$HOME/.config/fish:$REPO_DIR/configs/fish"
+            "$HOME/.config/zed:$REPO_DIR/configs/zed"
+        )
+        
+        for config_pair in "${configs_to_sync[@]}"; do
+            local source="${config_pair%%:*}"
+            local dest="${config_pair##*:}"
+            
+            if [[ -L "$source" ]]; then
+                info "Skipping symlinked config: $source"
+                continue
+            fi
+            
+            if [[ -d "$source" && -d "$dest" ]]; then
+                info "Syncing $source to $dest..."
+                rsync -av --delete "$source/" "$dest/"
+            fi
+        done
+        
+        success "Basic sync complete!"
+    fi
+}
+
+cmd_health() {
+    info "Running system health check..."
+    
+    local health_script="$REPO_DIR/scripts/maintenance/health-check.sh"
+    if [[ -x "$health_script" ]]; then
+        "$health_script"
+    else
+        error "Health check script not found: $health_script"
+    fi
+}
+
+cmd_install() {
+    info "Running installation process..."
+    
+    local install_script="$REPO_DIR/scripts/install/bootstrap.sh"
+    if [[ -x "$install_script" ]]; then
+        "$install_script"
+    else
+        error "Installation script not found: $install_script"
+    fi
+}
+
+cmd_uninstall() {
+    warning "This will completely remove Catred Config and all its components!"
+    read -p "Are you sure you want to continue? (y/N): " -n 1 -r
+    echo
+    
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        info "Uninstall cancelled."
+        exit 0
+    fi
+    
+    local uninstall_script="$REPO_DIR/uninstall.sh"
+    if [[ -x "$uninstall_script" ]]; then
+        "$uninstall_script"
+    else
+        error "Uninstall script not found: $uninstall_script"
+    fi
+}
+
+# --- Main Function ---
+main() {
+    # Check if we're in the right directory structure
+    if [[ ! -f "$REPO_DIR/CLAUDE.md" ]]; then
+        error "Catred Config repository not found. Please run from the correct directory."
+    fi
+    
+    case "${1:-help}" in
+        theme)
+            shift
+            cmd_theme "$@"
+            ;;
+        update)
+            shift
+            cmd_update "$@"
+            ;;
+        sync)
+            shift
+            cmd_sync "$@"
+            ;;
+        health)
+            shift
+            cmd_health "$@"
+            ;;
+        install)
+            shift
+            cmd_install "$@"
+            ;;
+        uninstall)
+            shift
+            cmd_uninstall "$@"
+            ;;
+        version)
+            show_version
+            ;;
+        help|--help|-h)
+            show_help
+            ;;
+        *)
+            error "Unknown command: $1. Use 'catred help' for usage information."
+            ;;
+    esac
+}
+
+# Run main function
+main "$@"

@@ -6,7 +6,7 @@
 # cross-platform development environment.
 #
 
-set -e
+set -eE
 
 # --- Configuration ---
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -50,7 +50,7 @@ run_test() {
     local test_temp_dir=$(mktemp -d)
     trap "rm -rf '$test_temp_dir'" EXIT
     
-    if "$test_function" "$test_temp_dir" 2>/dev/null; then
+    if "$test_function" 2>/dev/null; then
         echo -e "[${GREEN}PASS${NC}]"
         ((PASSED_TESTS++))
     else
@@ -148,7 +148,11 @@ run_test_suite() {
     while IFS= read -r test_file; do
         if [[ -x "$test_file" ]]; then
             info "Executing test file: $(basename "$test_file")"
-            bash "$test_file" || warn "Test file $test_file failed"
+            if bash "$test_file"; then
+                info "Test file $(basename "$test_file") completed successfully"
+            else
+                warn "Test file $test_file failed"
+            fi
         else
             warn "Test file not executable: $test_file"
         fi
