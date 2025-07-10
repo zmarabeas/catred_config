@@ -6,7 +6,7 @@
 # cross-platform development environment.
 #
 
-# set -eE  # Temporarily disabled for debugging
+# Don't use set -e in test framework to allow tests to fail gracefully
 
 # --- Configuration ---
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -52,9 +52,9 @@ VERBOSE_MODE=false
 # --- Logging Functions ---
 log() { echo -e "$*" | tee -a "$TEST_LOG"; }
 info() { log "${AQUA}[INFO]${NC} $*"; }
-pass() { log "${GREEN}[PASS]${NC} $*"; ((PASSED_TESTS++)); }
-fail() { log "${RED}[FAIL]${NC} $*"; ((FAILED_TESTS++)); }
-skip() { log "${YELLOW}[SKIP]${NC} $*"; ((SKIPPED_TESTS++)); }
+pass() { log "${GREEN}[PASS]${NC} $*"; ((PASSED_TESTS++)) || true; }
+fail() { log "${RED}[FAIL]${NC} $*"; ((FAILED_TESTS++)) || true; }
+skip() { log "${YELLOW}[SKIP]${NC} $*"; ((SKIPPED_TESTS++)) || true; }
 warn() { log "${YELLOW}[WARN]${NC} $*"; }
 verbose() { [[ "$VERBOSE_MODE" == "true" ]] && log "${BLUE}[VERBOSE]${NC} $*"; }
 
@@ -64,7 +64,7 @@ run_test() {
     local test_function="$2"
     local test_description="$3"
     
-    ((TOTAL_TESTS++))
+    ((TOTAL_TESTS++)) || true
     
     printf "%-60s" "$test_description"
     
@@ -111,14 +111,14 @@ run_test() {
         else
             echo -e "[${GREEN}PASS${NC}]"
         fi
-        ((PASSED_TESTS++))
+        ((PASSED_TESTS++)) || true
     else
         if [[ "$VERBOSE_MODE" == "true" ]]; then
             echo -e "[${RED}FAIL${NC}] (${duration}s)"
         else
             echo -e "[${RED}FAIL${NC}]"
         fi
-        ((FAILED_TESTS++))
+        ((FAILED_TESTS++)) || true
     fi
     
     # Clean up test temp directory
@@ -282,9 +282,9 @@ run_test_suite() {
             fi
             
             # Update global counters
-            ((TOTAL_TESTS += pass_count + fail_count))
-            ((PASSED_TESTS += pass_count))
-            ((FAILED_TESTS += fail_count))
+            ((TOTAL_TESTS += pass_count + fail_count)) || true
+            ((PASSED_TESTS += pass_count)) || true
+            ((FAILED_TESTS += fail_count)) || true
             
             # Determine success based on PASS/FAIL count, not exit code
             if [[ $fail_count -eq 0 ]]; then

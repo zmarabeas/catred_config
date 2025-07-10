@@ -3,6 +3,9 @@
 # Integration tests for install/uninstall workflows
 #
 
+# Disable errexit for test scripts
+set +e
+
 # Source the test framework
 source "$(dirname "${BASH_SOURCE[0]}")/../test_framework.sh"
 

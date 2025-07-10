@@ -41,16 +41,8 @@ jobs:
         run: |
           chmod +x tests/test_framework.sh
           chmod +x tests/unit/*.sh
-          set +e  # Allow test failures without stopping CI
-          ./tests/test_framework.sh unit
-          test_exit_code=$?
-          set -e  # Re-enable exit on error
-          
-          echo "Unit tests completed with exit code: $test_exit_code"
-          if [ $test_exit_code -ne 0 ]; then
-            echo "::warning::Unit tests failed - check test output above for details"
-            exit $test_exit_code
-          fi
+          # Run tests in CI mode
+          CI=true GITHUB_ACTIONS=true ./tests/test_framework.sh unit
 
   # Integration Tests
   integration-tests:
@@ -67,17 +59,10 @@ jobs:
       
       - name: Run integration tests
         run: |
+          chmod +x tests/test_framework.sh
           chmod +x tests/integration/*.sh
-          set +e  # Allow test failures without stopping CI
-          ./tests/test_framework.sh integration
-          test_exit_code=$?
-          set -e  # Re-enable exit on error
-          
-          echo "Integration tests completed with exit code: $test_exit_code"
-          if [ $test_exit_code -ne 0 ]; then
-            echo "::warning::Integration tests failed - check test output above for details"
-            exit $test_exit_code
-          fi
+          # Run tests in CI mode
+          CI=true GITHUB_ACTIONS=true ./tests/test_framework.sh integration
 
   # Cross-Platform Tests
   cross-platform-tests:
@@ -343,16 +328,8 @@ jobs:
           chmod +x tests/test_framework.sh
           chmod +x tests/unit/*.sh
           chmod +x tests/integration/*.sh
-          set +e  # Allow test failures without stopping CI
-          ./tests/test_framework.sh
-          test_exit_code=$?
-          set -e  # Re-enable exit on error
-          
-          echo "Complete test suite completed with exit code: $test_exit_code"
-          if [ $test_exit_code -ne 0 ]; then
-            echo "::warning::Test suite failed - check test output above for details"
-            exit $test_exit_code
-          fi
+          # Run tests in CI mode
+          CI=true GITHUB_ACTIONS=true ./tests/test_framework.sh all
       
       - name: Upload test results
         if: always()

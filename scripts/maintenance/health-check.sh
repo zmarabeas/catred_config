@@ -9,11 +9,24 @@
 # --- Configuration & Helpers ---
 REPO_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && cd ../.. && pwd)
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-NC='\033[0m'
+# CI environment detection
+CI_MODE=false
+if [[ -n "$CI" || -n "$GITHUB_ACTIONS" || -n "$TRAVIS" || -n "$CIRCLECI" || -n "$JENKINS_URL" ]]; then
+    CI_MODE=true
+fi
+
+# Colors (disabled in CI for better parsing)
+if [[ "$CI_MODE" == "true" ]]; then
+    RED=''
+    GREEN=''
+    YELLOW=''
+    NC=''
+else
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    YELLOW='\033[0;33m'
+    NC='\033[0m'
+fi
 
 # Counters
 PASS_COUNT=0
@@ -90,6 +103,10 @@ main() {
     echo "Running Catred Config Health Check..."
     echo "======================================"
     
+    if [[ "$CI_MODE" == "true" ]]; then
+        echo "Running in CI environment - some checks will be skipped"
+    fi
+    
     run_cli_checks
     run_symlink_checks
     run_theme_checks
@@ -103,7 +120,7 @@ main() {
     if [ $FAIL_COUNT -ne 0 ]; then
         echo "Some checks failed. Please review the output above and run the appropriate installation script."
         # Don't exit with error code in CI environment
-        if [[ -n "$CI" || -n "$GITHUB_ACTIONS" ]]; then
+        if [[ "$CI_MODE" == "true" ]]; then
             echo "Running in CI environment - continuing despite failures"
             exit 0
         else
