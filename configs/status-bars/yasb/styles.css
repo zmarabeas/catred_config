@@ -1,0 +1,153 @@
+/* YASB Styles - Dynamic theme loading */
+
+/* Load theme-specific colors */
+:root {
+  /* Default Catppuccin Macchiato colors */
+  --bg-primary: #24273a;
+  --bg-secondary: #1e2030;
+  --fg-primary: #cad3f5;
+  --fg-secondary: #a5adcb;
+  --accent-blue: #8aadf4;
+  --accent-green: #a6da95;
+  --accent-yellow: #eed49f;
+  --accent-orange: #f5a97f;
+  --accent-red: #ed8796;
+  --accent-purple: #c6a0f6;
+}
+
+/* Main bar styling */
+.yasb-bar {
+  background: var(--bg-primary);
+  color: var(--fg-primary);
+  font-family: 'JetBrains Mono Nerd Font', 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--bg-secondary);
+}
+
+/* Widget base styling */
+.widget {
+  padding: 4px 8px;
+  margin: 0 2px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.widget:hover {
+  background: var(--bg-secondary);
+}
+
+/* Workspace widgets */
+.komorebi-workspaces .ws-btn {
+  background: transparent;
+  color: var(--fg-secondary);
+  border: 1px solid var(--bg-secondary);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 0 2px;
+  min-width: 24px;
+  font-weight: 600;
+}
+
+.komorebi-workspaces .ws-btn.populated {
+  color: var(--fg-primary);
+  border-color: var(--accent-blue);
+}
+
+.komorebi-workspaces .ws-btn.active {
+  background: var(--accent-blue);
+  color: var(--bg-primary);
+  border-color: var(--accent-blue);
+}
+
+/* Active layout */
+.komorebi-active-layout {
+  color: var(--accent-purple);
+  font-weight: 600;
+}
+
+/* Active window */
+.active-window {
+  color: var(--fg-primary);
+  font-weight: 500;
+  max-width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* System info widgets */
+.cpu-widget {
+  color: var(--accent-orange);
+}
+
+.memory-widget {
+  color: var(--accent-purple);
+}
+
+.volume-widget {
+  color: var(--accent-blue);
+}
+
+.network-widget {
+  color: var(--accent-green);
+}
+
+.battery-widget {
+  color: var(--accent-green);
+}
+
+.battery-widget.low {
+  color: var(--accent-orange);
+}
+
+.battery-widget.critical {
+  color: var(--accent-red);
+}
+
+/* Clock */
+.clock-widget {
+  color: var(--fg-primary);
+  font-weight: 600;
+}
+
+/* Status indicators */
+.status-online {
+  color: var(--accent-green);
+}
+
+.status-offline {
+  color: var(--accent-red);
+}
+
+.status-warning {
+  color: var(--accent-orange);
+}
+
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.widget {
+  animation: fade-in 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .active-window {
+    max-width: 200px;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .yasb-bar {
+    border-bottom-width: 2px;
+  }
+  
+  .widget {
+    border: 1px solid var(--fg-secondary);
+  }
+}

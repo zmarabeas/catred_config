@@ -1,21 +1,38 @@
-[38;2;104;157;106m[INFO][0m Starting Catred Config Test Suite
-[38;2;104;157;106m[INFO][0m ======================================
-[38;2;104;157;106m[INFO][0m Running unit tests...
-[38;2;104;157;106m[INFO][0m Executing test file: test_catred_cli.sh
-[38;2;215;153;33m[WARN][0m Test file /Users/ayo/catred_config/tests/unit/test_catred_cli.sh failed
-[38;2;104;157;106m[INFO][0m Executing test file: test_health_check.sh
-[38;2;215;153;33m[WARN][0m Test file /Users/ayo/catred_config/tests/unit/test_health_check.sh failed
-[38;2;104;157;106m[INFO][0m Executing test file: test_theme_system.sh
-[38;2;215;153;33m[WARN][0m Test file /Users/ayo/catred_config/tests/unit/test_theme_system.sh failed
-[38;2;104;157;106m[INFO][0m Running integration tests...
-[38;2;104;157;106m[INFO][0m Executing test file: test_install_uninstall.sh
-[38;2;215;153;33m[WARN][0m Test file /Users/ayo/catred_config/tests/integration/test_install_uninstall.sh failed
-[38;2;104;157;106m[INFO][0m Running e2e tests...
-[38;2;215;153;33m[WARN][0m No test files found in /Users/ayo/catred_config/tests/e2e
-[38;2;104;157;106m[INFO][0m ======================================
-[38;2;104;157;106m[INFO][0m Test Summary:
-[38;2;104;157;106m[INFO][0m   Total: 0
-[38;2;104;157;106m[INFO][0m   Passed: 0
-[38;2;104;157;106m[INFO][0m   Failed: 0
-[38;2;104;157;106m[INFO][0m   Skipped: 0
-[38;2;152;151;26m[PASS][0m All tests passed!
+[INFO] Starting Catred Config Test Suite
+[INFO] ======================================
+[INFO] Running unit tests...
+[INFO] Executing test file: test_catred_cli.sh
+[INFO] Unit tests for catred CLI completed
+[INFO] Test file test_catred_cli.sh completed successfully (9 passed, 0 failed)
+[INFO] Executing test file: test_config_completeness.sh
+[INFO] Unit tests for configuration completeness completed
+[INFO] Test file test_config_completeness.sh completed successfully (10 passed, 0 failed)
+[INFO] Executing test file: test_health_check.sh
+[INFO] Unit tests for health check system completed
+[INFO] Test file test_health_check.sh completed successfully (12 passed, 0 failed)
+[INFO] Executing test file: test_platform_install.sh
+[SKIP] Windows install script not implemented yet
+[SKIP] Windows install script not implemented yet
+[SKIP] No build scripts found (might not be needed for this project)
+[INFO] Unit tests for platform installation completed
+[INFO] Test file test_platform_install.sh completed successfully (16 passed, 0 failed)
+[INFO] Executing test file: test_theme_system.sh
+[INFO] Unit tests for theme system completed
+[INFO] Test file test_theme_system.sh completed successfully (11 passed, 0 failed)
+[INFO] Running integration tests...
+[INFO] Executing test file: test_install_uninstall.sh
+[SKIP] Skipping bootstrap platform detection test in CI environment
+[SKIP] Skipping uninstall safety confirmation test in CI environment
+[SKIP] Skipping install script safety checks test in CI environment
+[SKIP] Skipping install script backup test in CI environment
+[INFO] Integration tests for install/uninstall workflows completed
+[INFO] Test file test_install_uninstall.sh completed successfully (20 passed, 0 failed)
+[WARN] Test suite directory not found: /workspace/tests/e2e
+[INFO] ======================================
+[INFO] Test Summary:
+[INFO]   Total: 78
+[INFO]   Passed: 78
+[INFO]   Failed: 0
+[INFO]   Skipped: 0
+[PASS] All tests passed!
+[INFO] Test report generated: /workspace/tests/test_report.html

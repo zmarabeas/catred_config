@@ -1,0 +1,171 @@
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-h": "vim::Left",
+      "ctrl-j": "vim::Down",
+      "ctrl-k": "vim::Up",
+      "ctrl-l": "vim::Right",
+      
+      "alt-h": "pane::ActivateLeftPane",
+      "alt-j": "pane::ActivateDownPane",
+      "alt-k": "pane::ActivateUpPane",
+      "alt-l": "pane::ActivateRightPane",
+      
+      "alt-|": "pane::SplitVertical",
+      "alt--": "pane::SplitHorizontal",
+      
+      "space f f": "file_finder::Toggle",
+      "space f r": "recent_projects::Toggle",
+      "space f s": "workspace::Save",
+      "space f n": "workspace::NewFile",
+      
+      "space /": "search::Deploy",
+      "space s g": "search::DeployGlobal",
+      "space s w": "search::SelectWord",
+      
+      "space b b": "tab_switcher::Toggle",
+      "space b d": "pane::CloseActiveItem",
+      "space b n": "pane::ActivateNextItem",
+      "space b p": "pane::ActivatePrevItem",
+      
+      "space g s": "git::OpenRepository",
+      "space g b": "git::OpenBranches",
+      "space g h": "git::OpenHistory",
+      "space g d": "git::OpenDiff",
+      
+      "space t t": "terminal_panel::ToggleFocus",
+      "space t f": "terminal_panel::ToggleFocus",
+      
+      "space e": "project_panel::ToggleFocus",
+      "space o": "outline_panel::ToggleFocus",
+      
+      "space d d": "diagnostics::Deploy",
+      "space d n": "diagnostics::GoToNextDiagnostic",
+      "space d p": "diagnostics::GoToPrevDiagnostic",
+      
+      "space c a": "editor::ToggleCodeActions",
+      "space c f": "editor::Format",
+      "space c r": "editor::Rename",
+      
+      "g d": "editor::GoToDefinition",
+      "g r": "editor::FindAllReferences",
+      "g i": "editor::GoToImplementation",
+      "g t": "editor::GoToTypeDefinition",
+      "K": "editor::Hover",
+      
+      "space space": "file_finder::Toggle",
+      "space ,": "tab_switcher::Toggle",
+      "space :": "command_palette::Toggle",
+      
+      "z o": "editor::UnfoldAtCursor",
+      "z c": "editor::FoldAtCursor",
+      "z R": "editor::UnfoldAll",
+      "z M": "editor::FoldAll",
+      
+      "space v": "editor::SelectAll",
+      
+      "space /": "editor::ToggleComments",
+      
+      "space z": "workspace::ToggleCenteredLayout"
+    }
+  },
+  
+  {
+    "context": "vim_mode == normal",
+    "bindings": {
+      "ctrl-w h": "pane::ActivateLeftPane",
+      "ctrl-w j": "pane::ActivateDownPane", 
+      "ctrl-w k": "pane::ActivateUpPane",
+      "ctrl-w l": "pane::ActivateRightPane",
+      "ctrl-w q": "pane::CloseActiveItem",
+      "ctrl-w v": "pane::SplitVertical",
+      "ctrl-w s": "pane::SplitHorizontal",
+      
+      "[ b": "pane::ActivatePrevItem",
+      "] b": "pane::ActivateNextItem",
+      "space b d": "pane::CloseActiveItem",
+      
+      "[ d": "diagnostics::GoToPrevDiagnostic",
+      "] d": "diagnostics::GoToNextDiagnostic",
+      
+      "[ h": "git::GoToPrevHunk",
+      "] h": "git::GoToNextHunk",
+      
+      "z z": "editor::ScrollCursorCenter",
+      "z t": "editor::ScrollCursorTop",
+      "z b": "editor::ScrollCursorBottom"
+    }
+  },
+  
+  {
+    "context": "vim_mode == insert",
+    "bindings": {
+      "j j": "vim::NormalBefore",
+      "j k": "vim::NormalBefore",
+      "k j": "vim::NormalBefore",
+      
+      "ctrl-n": "editor::ShowCompletions",
+      "ctrl-p": "editor::ShowCompletions"
+    }
+  },
+  
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      ">": "editor::Indent",
+      "<": "editor::Outdent",
+      
+      "J": "editor::MoveLineDown",
+      "K": "editor::MoveLineUp"
+    }
+  },
+  
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-h": "pane::ActivateLeftPane",
+      "ctrl-j": "pane::ActivateDownPane",
+      "ctrl-k": "pane::ActivateUpPane",
+      "ctrl-l": "pane::ActivateRightPane",
+      "cmd-t": "terminal_panel::ToggleFocus",
+      "ctrl-`": "terminal_panel::ToggleFocus"
+    }
+  },
+  
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "A": "project_panel::NewDirectory",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Delete",
+      "x": "project_panel::Cut",
+      "c": "project_panel::Copy",
+      "p": "project_panel::Paste",
+      "enter": "project_panel::Open",
+      "space": "project_panel::ToggleExpanded"
+    }
+  },
+  
+  {
+    "bindings": {
+      "cmd-s": "workspace::Save",
+      "ctrl-s": "workspace::Save",
+      
+      "cmd-q": "zed::Quit",
+      
+      "cmd-b": "project_panel::ToggleFocus",
+      "cmd-j": "terminal_panel::ToggleFocus",
+      
+      "cmd-t": "workspace::NewFile",
+      "cmd-n": "workspace::NewWindow",
+      
+      "cmd-w": "pane::CloseActiveItem",
+      
+      "cmd-=": "zed::IncreaseBufferFontSize",
+      "cmd--": "zed::DecreaseBufferFontSize",
+      "cmd-0": "zed::ResetBufferFontSize"
+    }
+  }
+]

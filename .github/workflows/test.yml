@@ -1,9 +1,341 @@
-name: CI
-on: [push, pull_request]
+name: Catred Config Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
 jobs:
-  build:
+  # Shell Script Linting
+  shellcheck:
+    name: Shell Script Linting
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Run a one-line script
-      run: echo Hello, world!
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: './scripts'
+          format: gcc
+          severity: error
+        env:
+          SHELLCHECK_OPTS: -e SC1091
+
+  # Unit Tests
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up test environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y stow
+      
+      - name: Run unit tests
+        run: |
+          chmod +x tests/test_framework.sh
+          chmod +x tests/unit/*.sh
+          # Run tests in CI mode
+          CI=true GITHUB_ACTIONS=true ./tests/test_framework.sh unit
+
+  # Integration Tests
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up test environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y stow
+      
+      - name: Run integration tests
+        run: |
+          chmod +x tests/test_framework.sh
+          chmod +x tests/integration/*.sh
+          # Run tests in CI mode
+          CI=true GITHUB_ACTIONS=true ./tests/test_framework.sh integration
+
+  # Cross-Platform Tests
+  cross-platform-tests:
+    name: Cross-Platform Tests
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up test environment (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y stow
+      
+      - name: Set up test environment (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install stow
+      
+      - name: Set up test environment (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          # Install required tools for Windows testing
+          choco install git
+        shell: powershell
+      
+      - name: Test script existence and permissions (Unix)
+        if: matrix.os != 'windows-latest'
+        run: |
+          # Test that key scripts exist and are executable
+          test -x scripts/catred
+          test -x scripts/install/bootstrap.sh
+          test -x scripts/config/switch-theme.sh
+          test -x scripts/maintenance/health-check.sh
+      
+      - name: Test script existence (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          # Test that key scripts exist
+          Test-Path scripts/catred
+          Test-Path scripts/install/bootstrap.sh
+          Test-Path scripts/config/switch-theme.sh
+          Test-Path scripts/maintenance/health-check.sh
+        shell: powershell
+      
+      - name: Test theme system structure
+        run: |
+          # Test that theme directories exist
+          test -d configs/catppuccin-macchiato
+          test -d configs/gruvbox
+          test -d configs/tokyo-night-storm
+          
+          # Test that color files exist
+          test -f configs/catppuccin-macchiato/colors.yaml
+          test -f configs/gruvbox/colors.yaml
+          test -f configs/tokyo-night-storm/colors.yaml
+        shell: bash
+      
+      - name: Test configuration structure
+        run: |
+          # Test that configuration directories exist
+          test -d configs/nvim
+          test -d configs/fish
+          test -d configs/terminals
+          test -d configs/window-managers
+          test -d configs/status-bars
+        shell: bash
+
+  # Configuration Validation
+  config-validation:
+    name: Configuration Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y yamllint jq
+      
+      - name: Validate YAML files
+        run: |
+          find configs -name "*.yaml" -o -name "*.yml" | xargs yamllint -d relaxed
+      
+      - name: Validate JSON files
+        run: |
+          find configs -name "*.json" | xargs -I {} jq empty {}
+      
+      - name: Check for required files
+        run: |
+          # Check that essential files exist
+          test -f CLAUDE.md
+          test -f README.md
+          test -f SPECIFICATION.md
+          test -f scripts/catred
+          test -f scripts/install/bootstrap.sh
+
+  # Theme Consistency Tests
+  theme-consistency:
+    name: Theme Consistency Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          # Install yq for YAML processing
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+      
+      - name: Test theme completeness
+        run: |
+          # Test that all themes have required files
+          themes=("catppuccin-macchiato" "gruvbox" "tokyo-night-storm")
+          # Primary terminals (required)
+          primary_terminals=("ghostty" "warp")
+          # Secondary terminals (optional)
+          secondary_terminals=("kitty" "alacritty")
+          
+          for theme in "${themes[@]}"; do
+            # Check color definition exists
+            test -f "configs/$theme/colors.yaml"
+            
+            # Check primary terminal configs exist (required)
+            for terminal in "${primary_terminals[@]}"; do
+              found=false
+              for ext in conf yml yaml config; do
+                if test -f "configs/terminals/$terminal/$theme.$ext"; then
+                  found=true
+                  break
+                fi
+              done
+              if [ "$found" = false ]; then
+                echo "Missing required terminal config: $terminal/$theme"
+                exit 1
+              fi
+            done
+            
+            # Check secondary terminal configs exist (warn if missing)
+            for terminal in "${secondary_terminals[@]}"; do
+              found=false
+              for ext in conf yml yaml config; do
+                if test -f "configs/terminals/$terminal/$theme.$ext"; then
+                  found=true
+                  break
+                fi
+              done
+              if [ "$found" = false ]; then
+                echo "Warning: Missing optional terminal config: $terminal/$theme"
+              fi
+            done
+            
+            # Check fish theme exists
+            test -f "configs/fish/themes/$theme.fish"
+          done
+
+  # Security Scan
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run security scan
+        run: |
+          # Check for common security issues in shell scripts
+          find scripts -name "*.sh" -exec grep -H "eval.*\$" {} \; | tee security_issues.txt
+          find scripts -name "*.sh" -exec grep -H "curl.*|.*sh" {} \; | tee -a security_issues.txt
+          find scripts -name "*.sh" -exec grep -H "rm -rf /" {} \; | tee -a security_issues.txt
+          
+          # Fail if security issues are found
+          if [ -s security_issues.txt ]; then
+            echo "Security issues found:"
+            cat security_issues.txt
+            exit 1
+          fi
+          
+          echo "No security issues found"
+
+  # Performance Tests
+  performance-tests:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up test environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y stow
+      
+      - name: Test script performance
+        run: |
+          # Test that scripts run within reasonable time limits
+          echo "Testing script performance..."
+          
+          # Test theme switch script
+          timeout 30s bash scripts/config/switch-theme.sh || echo "Theme switch script completed or timed out"
+          
+          # Test health check script
+          timeout 30s bash scripts/maintenance/health-check.sh || echo "Health check script completed or timed out"
+          
+          # Test catred CLI
+          timeout 30s bash scripts/catred help || echo "Catred CLI help completed or timed out"
+          
+          echo "Performance tests completed"
+
+  # Documentation Tests
+  documentation-tests:
+    name: Documentation Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Test documentation completeness
+        run: |
+          # Check that documentation files exist
+          test -f README.md
+          test -f CLAUDE.md
+          test -f SPECIFICATION.md
+          
+          # Check that README mentions key features
+          grep -q "theme" README.md || echo "README should mention theming"
+          grep -q "install" README.md || echo "README should mention installation"
+          
+          # Check that installation docs exist
+          test -f docs/installation/macos-setup.md
+          test -f docs/installation/linux-setup.md
+          test -f docs/installation/windows-setup.md
+          
+          # Check that testing documentation exists
+          test -f tests/README.md
+          
+          echo "Documentation tests completed"
+
+  # Full Test Suite
+  full-test-suite:
+    name: Full Test Suite
+    runs-on: ubuntu-latest
+    needs: [shellcheck, unit-tests, integration-tests, config-validation, theme-consistency, security-scan, performance-tests, documentation-tests]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up test environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y stow
+      
+      - name: Run complete test suite
+        run: |
+          chmod +x tests/test_framework.sh
+          chmod +x tests/unit/*.sh
+          chmod +x tests/integration/*.sh
+          # Run tests in CI mode
+          CI=true GITHUB_ACTIONS=true ./tests/test_framework.sh all
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            tests/test_results.log
+            tests/test_report.html

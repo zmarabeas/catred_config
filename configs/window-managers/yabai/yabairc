@@ -1,0 +1,194 @@
+#!/usr/bin/env sh
+# yabai configuration for macOS
+# Modern tiling window manager with i3-style keybindings
+
+# Load current theme colors
+if [ -f ~/.config/catred_config/current_theme ]; then
+    CURRENT_THEME=$(cat ~/.config/catred_config/current_theme)
+else
+    CURRENT_THEME="catppuccin-macchiato"
+fi
+
+# Load theme-specific colors
+case $CURRENT_THEME in
+    "catppuccin-macchiato")
+        FOCUSED_COLOR="0xff8bd5ca"
+        UNFOCUSED_COLOR="0xff6e738d"
+        URGENT_COLOR="0xffed8796"
+        BACKGROUND_COLOR="0xff24273a"
+        ;;
+    "gruvbox")
+        FOCUSED_COLOR="0xff689d6a"
+        UNFOCUSED_COLOR="0xff928374"
+        URGENT_COLOR="0xffcc241d"
+        BACKGROUND_COLOR="0xff282828"
+        ;;
+    "tokyo-night-storm")
+        FOCUSED_COLOR="0xff73daca"
+        UNFOCUSED_COLOR="0xff565f89"
+        URGENT_COLOR="0xfff7768e"
+        BACKGROUND_COLOR="0xff24283b"
+        ;;
+    *)
+        FOCUSED_COLOR="0xff8bd5ca"
+        UNFOCUSED_COLOR="0xff6e738d"
+        URGENT_COLOR="0xffed8796"
+        BACKGROUND_COLOR="0xff24273a"
+        ;;
+esac
+
+# Global settings
+yabai -m config                              \
+    external_bar                 off         \
+    menubar_opacity              1.0         \
+    mouse_follows_focus          off         \
+    focus_follows_mouse          off         \
+    display_arrangement_order    default     \
+    window_origin_display        default     \
+    window_placement             second_child \
+    window_zoom_persist          on          \
+    window_shadow                on          \
+    window_animation_duration    0.0         \
+    window_opacity_duration      0.0         \
+    active_window_opacity        1.0         \
+    normal_window_opacity        0.90        \
+    window_opacity               off         \
+    insert_feedback_color        $FOCUSED_COLOR \
+    split_ratio                  0.50        \
+    split_type                   auto        \
+    auto_balance                 off         \
+    top_padding                  8           \
+    bottom_padding               8           \
+    left_padding                 8           \
+    right_padding                8           \
+    window_gap                   8           \
+    layout                       bsp         \
+    mouse_modifier               fn          \
+    mouse_action1                move        \
+    mouse_action2                resize      \
+    mouse_drop_action            swap
+
+# Window borders
+yabai -m config window_border                on
+yabai -m config window_border_width          2
+yabai -m config active_window_border_color   $FOCUSED_COLOR
+yabai -m config normal_window_border_color   $UNFOCUSED_COLOR
+yabai -m config insert_feedback_color        $FOCUSED_COLOR
+
+# Space settings
+yabai -m config layout bsp
+yabai -m config top_padding    8
+yabai -m config bottom_padding 8
+yabai -m config left_padding   8
+yabai -m config right_padding  8
+yabai -m config window_gap     8
+
+# Mouse settings
+yabai -m config mouse_follows_focus          off
+yabai -m config mouse_modifier               fn
+yabai -m config mouse_action1                move
+yabai -m config mouse_action2                resize
+
+# Disable management for specific apps
+yabai -m rule --add app="^System Preferences$" manage=off
+yabai -m rule --add app="^Archive Utility$" manage=off
+yabai -m rule --add app="^Warp$" manage=off
+yabai -m rule --add app="^Raycast$" manage=off
+yabai -m rule --add app="^Finder$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Karabiner-Elements$" manage=off
+yabai -m rule --add app="^QuickTime Player$" manage=off
+yabai -m rule --add app="^Preview$" manage=off
+yabai -m rule --add app="^CleanMyMac$" manage=off
+yabai -m rule --add app="^1Blocker- Ad Blocker & Privacy$" manage=off
+yabai -m rule --add app="^ImageOptim$" manage=off
+yabai -m rule --add app="^TableFlip$" manage=off
+yabai -m rule --add app="^Logi Options$" manage=off
+yabai -m rule --add app="^Activity Monitor$" manage=off
+yabai -m rule --add app="^Console$" manage=off
+yabai -m rule --add app="^Disk Utility$" manage=off
+yabai -m rule --add app="^System Information$" manage=off
+yabai -m rule --add app="^System Monitor$" manage=off
+yabai -m rule --add app="^LookUp- English Dictionary$" manage=off
+yabai -m rule --add app="^Path Finder$" manage=off
+yabai -m rule --add app="^VirtualBuddy$" manage=off
+yabai -m rule --add app="^Simulator$" manage=off
+yabai -m rule --add app="^Proxyman$" manage=off
+yabai -m rule --add app="^Paw$" manage=off
+yabai -m rule --add app="^Digital Color Meter$" manage=off
+yabai -m rule --add app="^Font File Browser$" manage=off
+yabai -m rule --add app="^Keychain Access$" manage=off
+yabai -m rule --add app="^AppShelf$" manage=off
+yabai -m rule --add app="^WWDC for macOS$" manage=off
+yabai -m rule --add app="^NepTunes$" manage=off
+yabai -m rule --add app="^Usage- System Activity Monitor$" manage=off
+yabai -m rule --add app="^TextSoap$" manage=off
+yabai -m rule --add app="^Aspect Ratio X$" manage=off
+yabai -m rule --add app="^CleanMaster- Remove Junk Files$" manage=off
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^System Information$" manage=off
+yabai -m rule --add app="^Activity Monitor$" manage=off
+yabai -m rule --add app="^Digital Color Meter$" manage=off
+yabai -m rule --add app="^Font File Browser$" manage=off
+yabai -m rule --add app="^Keychain Access$" manage=off
+yabai -m rule --add app="^AppShelf$" manage=off
+yabai -m rule --add app="^WWDC for macOS$" manage=off
+yabai -m rule --add app="^NepTunes$" manage=off
+yabai -m rule --add app="^Usage- System Activity Monitor$" manage=off
+yabai -m rule --add app="^TextSoap$" manage=off
+yabai -m rule --add app="^Aspect Ratio X$" manage=off
+yabai -m rule --add app="^CleanMaster- Remove Junk Files$" manage=off
+
+# Floating windows
+yabai -m rule --add app="^Raycast$" manage=off
+yabai -m rule --add app="^Finder$" manage=off
+yabai -m rule --add app="^Archive Utility$" manage=off
+yabai -m rule --add app="^System Preferences$" manage=off
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Console$" manage=off
+yabai -m rule --add app="^Activity Monitor$" manage=off
+yabai -m rule --add app="^Disk Utility$" manage=off
+yabai -m rule --add app="^System Information$" manage=off
+yabai -m rule --add app="^Digital Color Meter$" manage=off
+yabai -m rule --add app="^Font File Browser$" manage=off
+yabai -m rule --add app="^Keychain Access$" manage=off
+yabai -m rule --add app="^AppShelf$" manage=off
+yabai -m rule --add app="^WWDC for macOS$" manage=off
+yabai -m rule --add app="^NepTunes$" manage=off
+yabai -m rule --add app="^Usage- System Activity Monitor$" manage=off
+yabai -m rule --add app="^TextSoap$" manage=off
+yabai -m rule --add app="^Aspect Ratio X$" manage=off
+yabai -m rule --add app="^CleanMaster- Remove Junk Files$" manage=off
+
+# Specific window rules
+yabai -m rule --add app="^Ghostty$" space=1
+yabai -m rule --add app="^Warp$" space=1
+yabai -m rule --add app="^Zed$" space=2
+yabai -m rule --add app="^Neovim$" space=2
+yabai -m rule --add app="^Code$" space=2
+yabai -m rule --add app="^Safari$" space=3
+yabai -m rule --add app="^Google Chrome$" space=3
+yabai -m rule --add app="^Firefox$" space=3
+yabai -m rule --add app="^Slack$" space=4
+yabai -m rule --add app="^Discord$" space=4
+yabai -m rule --add app="^Telegram$" space=4
+yabai -m rule --add app="^WhatsApp$" space=4
+yabai -m rule --add app="^Music$" space=5
+yabai -m rule --add app="^Spotify$" space=5
+
+# Refresh spaces
+yabai -m space --create
+yabai -m space --create
+yabai -m space --create
+yabai -m space --create
+yabai -m space --create
+
+# Space labels
+yabai -m space 1 --label "terminal"
+yabai -m space 2 --label "editor"
+yabai -m space 3 --label "browser"
+yabai -m space 4 --label "chat"
+yabai -m space 5 --label "media"
+
+echo "yabai configuration loaded with $CURRENT_THEME theme"

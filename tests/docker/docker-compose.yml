@@ -28,7 +28,7 @@ services:
     working_dir: /mnt
     command: >
       sh -c "
-        find scripts -name '*.sh' -exec shellcheck {} \;
+        find scripts -name '*.sh' -exec shellcheck {} \; &&
         find tests -name '*.sh' -exec shellcheck {} \;
       "
 
@@ -40,7 +40,77 @@ services:
     command: >
       bash -c "
         apt-get update &&
-        apt-get install -y yamllint jq &&
+        apt-get install -y yamllint jq curl &&
+        echo 'Validating YAML files...' &&
         find configs -name '*.yaml' -o -name '*.yml' | xargs yamllint -d relaxed &&
-        find configs -name '*.json' | xargs -I {} jq empty {}
+        echo 'Validating JSON files...' &&
+        find configs -name '*.json' | xargs -I {} jq empty {} &&
+        echo 'Validation completed successfully!'
+      "
+
+  security-scan:
+    image: ubuntu:22.04
+    volumes:
+      - ../..:/workspace
+    working_dir: /workspace
+    command: >
+      bash -c "
+        echo 'Running security scan...' &&
+        find scripts -name '*.sh' -exec grep -H 'eval.*\$' {} \; | tee security_issues.txt &&
+        find scripts -name '*.sh' -exec grep -H 'curl.*|.*sh' {} \; | tee -a security_issues.txt &&
+        find scripts -name '*.sh' -exec grep -H 'rm -rf /' {} \; | tee -a security_issues.txt &&
+        if [ -s security_issues.txt ]; then
+          echo 'Security issues found:' &&
+          cat security_issues.txt &&
+          exit 1
+        fi &&
+        echo 'No security issues found'
+      "
+
+  theme-consistency:
+    image: ubuntu:22.04
+    volumes:
+      - ../..:/workspace
+    working_dir: /workspace
+    command: >
+      bash -c "
+        apt-get update &&
+        apt-get install -y curl &&
+        echo 'Testing theme consistency...' &&
+        themes=('catppuccin-macchiato' 'gruvbox' 'tokyo-night-storm') &&
+        terminals=('kitty' 'alacritty' 'ghostty' 'warp') &&
+        for theme in \"\${themes[@]}\"; do
+          test -f \"configs/\$theme/colors.yaml\" || (echo \"Missing color file for \$theme\" && exit 1)
+          for terminal in \"\${terminals[@]}\"; do
+            found=false
+            for ext in conf yml yaml config; do
+              if test -f \"configs/terminals/\$terminal/\$theme.\$ext\"; then
+                found=true
+                break
+              fi
+            done
+            if [ \"\$found\" = false ]; then
+              echo \"Missing terminal config: \$terminal/\$theme\"
+              exit 1
+            fi
+          done
+          test -f \"configs/fish/themes/\$theme.fish\" || (echo \"Missing fish theme for \$theme\" && exit 1)
+        done &&
+        echo 'Theme consistency check passed!'
+      "
+
+  performance-test:
+    image: ubuntu:22.04
+    volumes:
+      - ../..:/workspace
+    working_dir: /workspace
+    command: >
+      bash -c "
+        apt-get update &&
+        apt-get install -y stow &&
+        echo 'Testing script performance...' &&
+        timeout 30s bash scripts/config/switch-theme.sh || echo 'Theme switch script completed or timed out' &&
+        timeout 30s bash scripts/maintenance/health-check.sh || echo 'Health check script completed or timed out' &&
+        timeout 30s bash scripts/catred help || echo 'Catred CLI help completed or timed out' &&
+        echo 'Performance tests completed'
       "

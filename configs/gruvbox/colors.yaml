@@ -1,0 +1,272 @@
+name: "Gruvbox Dark"
+author: "morhetz"
+description: "Retro groove color scheme - dark variant"
+
+colors:
+  background:
+    main: "#282828"
+    hard: "#1d2021"
+    soft: "#32302f"
+    bg1: "#3c3836"
+    bg2: "#504945"
+    bg3: "#665c54"
+    bg4: "#7c6f64"
+
+  foreground:
+    main: "#ebdbb2"
+    fg0: "#fbf1c7"
+    fg1: "#ebdbb2"
+    fg2: "#d5c4a1"
+    fg3: "#bdae93"
+    fg4: "#a89984"
+
+  accent:
+    red: "#cc241d"
+    green: "#98971a"
+    yellow: "#d79921"
+    blue: "#458588"
+    purple: "#b16286"
+    aqua: "#689d6a"
+    orange: "#d65d0e"
+    gray: "#928374"
+
+  bright:
+    red: "#fb4934"
+    green: "#b8bb26"
+    yellow: "#fabd2f"
+    blue: "#83a598"
+    purple: "#d3869b"
+    aqua: "#8ec07c"
+    orange: "#fe8019"
+
+  neutral:
+    red: "#cc241d"
+    green: "#98971a"
+    yellow: "#d79921"
+    blue: "#458588"
+    purple: "#b16286"
+    aqua: "#689d6a"
+    orange: "#d65d0e"
+
+  faded:
+    red: "#9d0006"
+    green: "#79740e"
+    yellow: "#b57614"
+    blue: "#076678"
+    purple: "#8f3f71"
+    aqua: "#427b58"
+    orange: "#af3a03"
+
+formats:
+  hex:
+    bg: "282828"
+    fg: "ebdbb2"
+    red: "cc241d"
+    green: "98971a"
+    yellow: "d79921"
+    blue: "458588"
+    purple: "b16286"
+    aqua: "689d6a"
+    orange: "d65d0e"
+    gray: "928374"
+
+  rgb:
+    bg: [40, 40, 40]
+    fg: [235, 219, 178]
+    red: [204, 36, 29]
+    green: [152, 151, 26]
+    yellow: [215, 153, 33]
+    blue: [69, 133, 136]
+    purple: [177, 98, 134]
+    aqua: [104, 157, 106]
+    orange: [214, 93, 14]
+    gray: [146, 131, 116]
+
+platform_specific:
+  macos:
+    sketchybar:
+      bg: "0xff282828"
+      fg: "0xffebdbb2"
+      yellow: "0xffd79921"
+      aqua: "0xff689d6a"
+      red: "0xffcc241d"
+      green: "0xff98971a"
+
+  linux:
+    i3:
+      bg: "#282828"
+      fg: "#ebdbb2"
+      yellow: "#d79921"
+      aqua: "#689d6a"
+      red: "#cc241d"
+      green: "#98971a"
+
+  windows:
+    yasb:
+      bg: "#282828"
+      fg: "#ebdbb2"
+      yellow: "#d79921"
+      aqua: "#689d6a"
+      red: "#cc241d"
+      green: "#98971a"
+
+terminal_colors:
+  ansi:
+    black: "#282828"
+    red: "#cc241d"
+    green: "#98971a"
+    yellow: "#d79921"
+    blue: "#458588"
+    magenta: "#b16286"
+    cyan: "#689d6a"
+    white: "#a89984"
+    bright_black: "#928374"
+    bright_red: "#fb4934"
+    bright_green: "#b8bb26"
+    bright_yellow: "#fabd2f"
+    bright_blue: "#83a598"
+    bright_magenta: "#d3869b"
+    bright_cyan: "#8ec07c"
+    bright_white: "#ebdbb2"
+
+application_mappings:
+  window_manager:
+    focused: "#689d6a"
+    unfocused: "#928374"
+    urgent: "#cc241d"
+
+  status_bar:
+    background: "#282828"
+    foreground: "#ebdbb2"
+    accent: "#d79921"
+    warning: "#fe8019"
+    error: "#cc241d"
+    success: "#98971a"
+
+  launcher:
+    background: "#282828"
+    foreground: "#ebdbb2"
+    selected: "#d79921"
+    match: "#689d6a"
+
+# Warp terminal theme format
+warp_theme:
+  name: "Gruvbox Dark"
+  accent: "#d79921"
+  background: "#282828"
+  foreground: "#ebdbb2"
+  details: "darker"
+  terminal_colors:
+    normal:
+      black: "#282828"
+      red: "#cc241d"
+      green: "#98971a"
+      yellow: "#d79921"
+      blue: "#458588"
+      magenta: "#b16286"
+      cyan: "#689d6a"
+      white: "#ebdbb2"
+    bright:
+      black: "#928374"
+      red: "#fb4934"
+      green: "#b8bb26"
+      yellow: "#fabd2f"
+      blue: "#83a598"
+      magenta: "#d3869b"
+      cyan: "#8ec07c"
+      white: "#fbf1c7"
+
+# Kitty terminal theme format
+kitty_theme:
+  foreground: "#ebdbb2"
+  background: "#282828"
+  selection_foreground: "#655b53"
+  selection_background: "#ebdbb2"
+  url_color: "#d65d0e"
+
+  # Black
+  color0: "#282828"
+  color8: "#928374"
+
+  # Red
+  color1: "#cc241d"
+  color9: "#fb4934"
+
+  # Green
+  color2: "#98971a"
+  color10: "#b8bb26"
+
+  # Yellow
+  color3: "#d79921"
+  color11: "#fabd2f"
+
+  # Blue
+  color4: "#458588"
+  color12: "#83a598"
+
+  # Magenta
+  color5: "#b16286"
+  color13: "#d3869b"
+
+  # Cyan
+  color6: "#689d6a"
+  color14: "#8ec07c"
+
+  # White
+  color7: "#a89984"
+  color15: "#ebdbb2"
+
+# Alacritty terminal theme format
+alacritty_theme:
+  primary:
+    background: "#282828"
+    foreground: "#ebdbb2"
+
+  normal:
+    black: "#282828"
+    red: "#cc241d"
+    green: "#98971a"
+    yellow: "#d79921"
+    blue: "#458588"
+    magenta: "#b16286"
+    cyan: "#689d6a"
+    white: "#a89984"
+
+  bright:
+    black: "#928374"
+    red: "#fb4934"
+    green: "#b8bb26"
+    yellow: "#fabd2f"
+    blue: "#83a598"
+    magenta: "#d3869b"
+    cyan: "#8ec07c"
+    white: "#ebdbb2"
+
+# Ghostty terminal theme format
+ghostty_theme:
+  name: "Gruvbox Dark"
+  background: "282828"
+  foreground: "ebdbb2"
+  cursor_color: "d79921"
+  cursor_text: "282828"
+  selection_background: "d5c4a1"
+  selection_foreground: "282828"
+
+  # ANSI Colors (palette format)
+  palette:
+    0: "282828"  # black
+    1: "cc241d"  # red
+    2: "98971a"  # green
+    3: "d79921"  # yellow
+    4: "458588"  # blue
+    5: "b16286"  # magenta
+    6: "689d6a"  # cyan
+    7: "a89984"  # white
+    8: "928374"  # bright black
+    9: "fb4934"  # bright red
+    10: "b8bb26" # bright green
+    11: "fabd2f" # bright yellow
+    12: "83a598" # bright blue
+    13: "d3869b" # bright magenta
+    14: "8ec07c" # bright cyan
+    15: "ebdbb2" # bright white

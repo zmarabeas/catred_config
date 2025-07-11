@@ -1,0 +1,227 @@
+name: "Tokyo Night Storm"
+author: "folke"
+description: "Tokyo Night colorscheme - Storm variant"
+colors:
+  background:
+    main: "#24283b"
+    dark: "#1f2335"
+    highlight: "#292e42"
+    menu: "#16161e"
+    visual: "#33467c"
+    search: "#3d59a1"
+  foreground:
+    main: "#c0caf5"
+    dark: "#a9b1d6"
+    bright: "#c0caf5"
+  accent:
+    red: "#f7768e"
+    orange: "#ff9e64"
+    yellow: "#e0af68"
+    green: "#9ece6a"
+    teal: "#73daca"
+    cyan: "#b4f9f8"
+    blue: "#7aa2f7"
+    purple: "#bb9af7"
+    magenta: "#c678dd"
+  neutral:
+    black: "#15161e"
+    white: "#c0caf5"
+    gray: "#565f89"
+    comment: "#565f89"
+formats:
+  hex:
+    bg: "24283b"
+    fg: "c0caf5"
+    red: "f7768e"
+    green: "9ece6a"
+    yellow: "e0af68"
+    blue: "7aa2f7"
+    purple: "bb9af7"
+    aqua: "73daca"
+    orange: "ff9e64"
+    gray: "565f89"
+  rgb:
+    bg: [36, 40, 59]
+    fg: [192, 202, 245]
+    red: [247, 118, 142]
+    green: [158, 206, 106]
+    yellow: [224, 175, 104]
+    blue: [122, 162, 247]
+    purple: [187, 154, 247]
+    aqua: [115, 218, 202]
+    orange: [255, 158, 100]
+    gray: [86, 95, 137]
+platform_specific:
+  macos:
+    sketchybar:
+      bg: "0xff24283b"
+      fg: "0xffc0caf5"
+      yellow: "0xffe0af68"
+      aqua: "0xff73daca"
+      red: "0xfff7768e"
+      green: "0xff9ece6a"
+  linux:
+    i3:
+      bg: "#24283b"
+      fg: "#c0caf5"
+      yellow: "#e0af68"
+      aqua: "#73daca"
+      red: "#f7768e"
+      green: "#9ece6a"
+  windows:
+    yasb:
+      bg: "#24283b"
+      fg: "#c0caf5"
+      yellow: "#e0af68"
+      aqua: "#73daca"
+      red: "#f7768e"
+      green: "#9ece6a"
+terminal_colors:
+  ansi:
+    black: "#15161e"
+    red: "#f7768e"
+    green: "#9ece6a"
+    yellow: "#e0af68"
+    blue: "#7aa2f7"
+    magenta: "#bb9af7"
+    cyan: "#73daca"
+    white: "#a9b1d6"
+    bright_black: "#414868"
+    bright_red: "#f7768e"
+    bright_green: "#9ece6a"
+    bright_yellow: "#e0af68"
+    bright_blue: "#7aa2f7"
+    bright_magenta: "#bb9af7"
+    bright_cyan: "#7dcfff"
+    bright_white: "#c0caf5"
+application_mappings:
+  window_manager:
+    focused: "#73daca"
+    unfocused: "#565f89"
+    urgent: "#f7768e"
+  status_bar:
+    background: "#24283b"
+    foreground: "#c0caf5"
+    accent: "#e0af68"
+    warning: "#ff9e64"
+    error: "#f7768e"
+    success: "#9ece6a"
+  launcher:
+    background: "#24283b"
+    foreground: "#c0caf5"
+    selected: "#e0af68"
+    match: "#73daca"
+# Warp terminal theme format
+warp_theme:
+  name: "Tokyo Night Storm"
+  accent: "#e0af68"
+  background: "#24283b"
+  foreground: "#c0caf5"
+  details: "darker"
+  terminal_colors:
+    normal:
+      black: "#15161e"
+      red: "#f7768e"
+      green: "#9ece6a"
+      yellow: "#e0af68"
+      blue: "#7aa2f7"
+      magenta: "#bb9af7"
+      cyan: "#73daca"
+      white: "#c0caf5"
+    bright:
+      black: "#414868"
+      red: "#f7768e"
+      green: "#9ece6a"
+      yellow: "#e0af68"
+      blue: "#7aa2f7"
+      magenta: "#bb9af7"
+      cyan: "#7dcfff"
+      white: "#c0caf5"
+# Kitty terminal theme format
+kitty_theme:
+  foreground: "#c0caf5"
+  background: "#24283b"
+  selection_foreground: "#c0caf5"
+  selection_background: "#2e3c64"
+  url_color: "#73daca"
+  # Black
+  color0: "#15161e"
+  color8: "#414868"
+  # Red
+  color1: "#f7768e"
+  color9: "#f7768e"
+  # Green
+  color2: "#9ece6a"
+  color10: "#9ece6a"
+  # Yellow
+  color3: "#e0af68"
+  color11: "#e0af68"
+  # Blue
+  color4: "#7aa2f7"
+  color12: "#7aa2f7"
+  # Magenta
+  color5: "#bb9af7"
+  color13: "#bb9af7"
+  # Cyan
+  color6: "#73daca"
+  color14: "#7dcfff"
+  # White
+  color7: "#a9b1d6"
+  color15: "#c0caf5"
+# Alacritty terminal theme format
+alacritty_theme:
+  primary:
+    background: "#24283b"
+    foreground: "#c0caf5"
+  cursor:
+    text: "#24283b"
+    cursor: "#c0caf5"
+  selection:
+    text: "#c0caf5"
+    background: "#2e3c64"
+  normal:
+    black: "#15161e"
+    red: "#f7768e"
+    green: "#9ece6a"
+    yellow: "#e0af68"
+    blue: "#7aa2f7"
+    magenta: "#bb9af7"
+    cyan: "#73daca"
+    white: "#a9b1d6"
+  bright:
+    black: "#414868"
+    red: "#f7768e"
+    green: "#9ece6a"
+    yellow: "#e0af68"
+    blue: "#7aa2f7"
+    magenta: "#bb9af7"
+    cyan: "#7dcfff"
+    white: "#c0caf5"
+# Ghostty terminal theme format
+ghostty_theme:
+  name: "Tokyo Night Storm"
+  background: "24283b"
+  foreground: "c0caf5"
+  cursor_color: "c0caf5"
+  cursor_text: "24283b"
+  selection_background: "2e3c64"
+  selection_foreground: "c0caf5"
+  # ANSI Colors (palette format)
+  palette:
+    0: "15161e" # black
+    1: "f7768e" # red
+    2: "9ece6a" # green
+    3: "e0af68" # yellow
+    4: "7aa2f7" # blue
+    5: "bb9af7" # magenta
+    6: "73daca" # cyan
+    7: "a9b1d6" # white
+    8: "414868" # bright black
+    9: "f7768e" # bright red
+    10: "9ece6a" # bright green
+    11: "e0af68" # bright yellow
+    12: "7aa2f7" # bright blue
+    13: "bb9af7" # bright magenta
+    14: "7dcfff" # bright cyan
+    15: "c0caf5" # bright white
+

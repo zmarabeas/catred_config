@@ -1,0 +1,164 @@
+#!/bin/bash
+# SketchyBar Configuration for macOS
+# Modern status bar with consistent theming
+
+# Load current theme colors
+if [ -f ~/.config/catred_config/current_theme ]; then
+    CURRENT_THEME=$(cat ~/.config/catred_config/current_theme)
+else
+    CURRENT_THEME="catppuccin-macchiato"
+fi
+
+# Load theme-specific colors
+case $CURRENT_THEME in
+    "catppuccin-macchiato")
+        BACKGROUND="0xff24273a"
+        FOREGROUND="0xffcad3f5"
+        ACCENT="0xffeed49f"
+        BLUE="0xff8aadf4"
+        GREEN="0xffa6da95"
+        RED="0xffed8796"
+        ORANGE="0xfff5a97f"
+        PURPLE="0xffc6a0f6"
+        TEAL="0xff8bd5ca"
+        GRAY="0xff6e738d"
+        SURFACE="0xff363a4f"
+        ;;
+    "gruvbox")
+        BACKGROUND="0xff282828"
+        FOREGROUND="0xffebdbb2"
+        ACCENT="0xffd79921"
+        BLUE="0xff458588"
+        GREEN="0xff98971a"
+        RED="0xffcc241d"
+        ORANGE="0xffd65d0e"
+        PURPLE="0xffb16286"
+        TEAL="0xff689d6a"
+        GRAY="0xff928374"
+        SURFACE="0xff3c3836"
+        ;;
+    "tokyo-night-storm")
+        BACKGROUND="0xff24283b"
+        FOREGROUND="0xffc0caf5"
+        ACCENT="0xffe0af68"
+        BLUE="0xff7aa2f7"
+        GREEN="0xff9ece6a"
+        RED="0xfff7768e"
+        ORANGE="0xffff9e64"
+        PURPLE="0xffbb9af7"
+        TEAL="0xff73daca"
+        GRAY="0xff565f89"
+        SURFACE="0xff292e42"
+        ;;
+esac
+
+# Plugin directory
+PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+
+# Global bar settings
+sketchybar --bar height=32 \
+                 blur_radius=30 \
+                 position=top \
+                 sticky=off \
+                 padding_left=10 \
+                 padding_right=10 \
+                 color=$BACKGROUND \
+                 corner_radius=6 \
+                 y_offset=5 \
+                 margin=10 \
+                 shadow=off
+
+# Default item settings
+sketchybar --default icon.font="JetBrains Mono Nerd Font:Bold:14.0" \
+                     icon.color=$FOREGROUND \
+                     label.font="JetBrains Mono Nerd Font:Medium:12.0" \
+                     label.color=$FOREGROUND \
+                     padding_left=5 \
+                     padding_right=5 \
+                     label.padding_left=4 \
+                     label.padding_right=4 \
+                     icon.padding_left=4 \
+                     icon.padding_right=4
+
+# Left side items
+sketchybar --add item space_separator left \
+           --set space_separator icon=" " \
+                                 icon.color=$ACCENT \
+                                 icon.padding_left=4 \
+                                 label.drawing=off \
+                                 background.drawing=off \
+                                 script="$PLUGIN_DIR/space.sh" \
+           --subscribe space_separator space_windows_change
+
+# Spaces
+SPACE_SIDS=(1 2 3 4 5 6 7 8 9 10)
+for sid in "${SPACE_SIDS[@]}"
+do
+  sketchybar --add space space.$sid left \
+             --set space.$sid space=$sid \
+                              icon=$sid \
+                              label.font="JetBrains Mono Nerd Font:Bold:14.0" \
+                              label.padding_right=20 \
+                              label.y_offset=-1 \
+                              script="$PLUGIN_DIR/space.sh" \
+             --subscribe space.$sid mouse.clicked
+done
+
+# Front App
+sketchybar --add item front_app left \
+           --set front_app background.color=$SURFACE \
+                           background.corner_radius=6 \
+                           background.height=24 \
+                           background.padding_left=0 \
+                           background.padding_right=0 \
+                           icon.color=$BLUE \
+                           icon.font="JetBrains Mono Nerd Font:Bold:14.0" \
+                           label.color=$FOREGROUND \
+                           label.font="JetBrains Mono Nerd Font:Medium:12.0" \
+                           script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched
+
+# Right side items
+sketchybar --add item clock right \
+           --set clock update_freq=10 \
+                       icon= \
+                       icon.color=$ACCENT \
+                       script="$PLUGIN_DIR/clock.sh"
+
+sketchybar --add item volume right \
+           --set volume script="$PLUGIN_DIR/volume.sh" \
+           --subscribe volume volume_change
+
+sketchybar --add item battery right \
+           --set battery script="$PLUGIN_DIR/battery.sh" \
+                        update_freq=120 \
+           --subscribe battery system_woke power_source_change
+
+sketchybar --add item cpu right \
+           --set cpu icon= \
+                     icon.color=$ORANGE \
+                     update_freq=2 \
+                     script="$PLUGIN_DIR/cpu.sh"
+
+sketchybar --add item memory right \
+           --set memory icon= \
+                        icon.color=$PURPLE \
+                        update_freq=15 \
+                        script="$PLUGIN_DIR/memory.sh"
+
+sketchybar --add item network right \
+           --set network icon=󰖩 \
+                         icon.color=$TEAL \
+                         update_freq=1 \
+                         script="$PLUGIN_DIR/network.sh"
+
+# Bracket the right side
+sketchybar --add bracket status clock volume battery cpu memory network \
+           --set status background.color=$SURFACE \
+                       background.corner_radius=6 \
+                       background.height=24
+
+# Finalizing the setup
+sketchybar --update
+
+echo "SketchyBar loaded with $CURRENT_THEME theme"

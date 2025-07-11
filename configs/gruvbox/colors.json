@@ -1,0 +1,172 @@
+{
+  "name": "Gruvbox Dark",
+  "author": "morhetz",
+  "description": "Retro groove color scheme - dark variant",
+  "colors": {
+    "background": {
+      "main": "#282828",
+      "hard": "#1d2021",
+      "soft": "#32302f",
+      "bg1": "#3c3836",
+      "bg2": "#504945",
+      "bg3": "#665c54",
+      "bg4": "#7c6f64"
+    },
+    "foreground": {
+      "main": "#ebdbb2",
+      "fg0": "#fbf1c7",
+      "fg1": "#ebdbb2",
+      "fg2": "#d5c4a1",
+      "fg3": "#bdae93",
+      "fg4": "#a89984"
+    },
+    "accent": {
+      "red": "#cc241d",
+      "green": "#98971a",
+      "yellow": "#d79921",
+      "blue": "#458588",
+      "purple": "#b16286",
+      "aqua": "#689d6a",
+      "orange": "#d65d0e",
+      "gray": "#928374"
+    },
+    "bright": {
+      "red": "#fb4934",
+      "green": "#b8bb26",
+      "yellow": "#fabd2f",
+      "blue": "#83a598",
+      "purple": "#d3869b",
+      "aqua": "#8ec07c",
+      "orange": "#fe8019"
+    },
+    "neutral": {
+      "red": "#cc241d",
+      "green": "#98971a",
+      "yellow": "#d79921",
+      "blue": "#458588",
+      "purple": "#b16286",
+      "aqua": "#689d6a",
+      "orange": "#d65d0e"
+    },
+    "faded": {
+      "red": "#9d0006",
+      "green": "#79740e",
+      "yellow": "#b57614",
+      "blue": "#076678",
+      "purple": "#8f3f71",
+      "aqua": "#427b58",
+      "orange": "#af3a03"
+    }
+  },
+  "formats": {
+    "hex": {
+      "bg": "282828",
+      "fg": "ebdbb2",
+      "red": "cc241d",
+      "green": "98971a",
+      "yellow": "d79921",
+      "blue": "458588",
+      "purple": "b16286",
+      "aqua": "689d6a",
+      "orange": "d65d0e",
+      "gray": "928374"
+    },
+    "rgb": {
+      "bg": [40, 40, 40],
+      "fg": [235, 219, 178],
+      "red": [204, 36, 29],
+      "green": [152, 151, 26],
+      "yellow": [215, 153, 33],
+      "blue": [69, 133, 136],
+      "purple": [177, 98, 134],
+      "aqua": [104, 157, 106],
+      "orange": [214, 93, 14],
+      "gray": [146, 131, 116]
+    },
+    "hsl": {
+      "bg": [0, 0, 16],
+      "fg": [42, 51, 81],
+      "red": [4, 75, 45],
+      "green": [61, 70, 35],
+      "yellow": [40, 74, 49],
+      "blue": [184, 32, 40],
+      "purple": [327, 29, 54],
+      "aqua": [142, 23, 51],
+      "orange": [26, 88, 45],
+      "gray": [25, 11, 51]
+    }
+  },
+  "platform_specific": {
+    "macos": {
+      "sketchybar": {
+        "bg": "0xff282828",
+        "fg": "0xffebdbb2",
+        "yellow": "0xffd79921",
+        "aqua": "0xff689d6a",
+        "red": "0xffcc241d",
+        "green": "0xff98971a"
+      }
+    },
+    "linux": {
+      "i3": {
+        "bg": "#282828",
+        "fg": "#ebdbb2",
+        "yellow": "#d79921",
+        "aqua": "#689d6a",
+        "red": "#cc241d",
+        "green": "#98971a"
+      }
+    },
+    "windows": {
+      "yasb": {
+        "bg": "#282828",
+        "fg": "#ebdbb2",
+        "yellow": "#d79921",
+        "aqua": "#689d6a",
+        "red": "#cc241d",
+        "green": "#98971a"
+      }
+    }
+  },
+  "terminal_colors": {
+    "ansi": {
+      "black": "#282828",
+      "red": "#cc241d",
+      "green": "#98971a",
+      "yellow": "#d79921",
+      "blue": "#458588",
+      "magenta": "#b16286",
+      "cyan": "#689d6a",
+      "white": "#a89984",
+      "bright_black": "#928374",
+      "bright_red": "#fb4934",
+      "bright_green": "#b8bb26",
+      "bright_yellow": "#fabd2f",
+      "bright_blue": "#83a598",
+      "bright_magenta": "#d3869b",
+      "bright_cyan": "#8ec07c",
+      "bright_white": "#ebdbb2"
+    }
+  },
+  "application_mappings": {
+    "window_manager": {
+      "focused": "#689d6a",
+      "unfocused": "#928374",
+      "urgent": "#cc241d"
+    },
+    "status_bar": {
+      "background": "#282828",
+      "foreground": "#ebdbb2",
+      "accent": "#d79921",
+      "warning": "#fe8019",
+      "error": "#cc241d",
+      "success": "#98971a"
+    },
+    "launcher": {
+      "background": "#282828",
+      "foreground": "#ebdbb2",
+      "selected": "#d79921",
+      "match": "#689d6a"
+    }
+  }
+}
