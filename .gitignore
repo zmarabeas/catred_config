@@ -7,8 +7,8 @@
 *.gemini.md
 ai-*.md
 agent-*.md
-claude-*.md
-gemini-*.md
+claude*.md
+gemini*.md
 
 # Development and Planning Files
 release-plan.md
