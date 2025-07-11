@@ -219,7 +219,7 @@ cmd_uninstall() {
 # --- Main Function ---
 main() {
     # Check if we're in the right directory structure (skip in CI)
-    if [[ "$CI_MODE" != "true" ]] && [[ ! -f "$REPO_DIR/CLAUDE.md" ]] && [[ ! -f "$REPO_DIR/README.md" ]]; then
+    if [[ "$CI_MODE" != "true" ]] && [[ ! -f "$REPO_DIR/README.md" ]]; then
         error "Catred Config repository not found. Please run from the correct directory."
     fi
     

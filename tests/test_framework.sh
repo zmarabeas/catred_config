@@ -423,8 +423,8 @@ main() {
         verbose "Running in CI environment - skipping strict repository checks"
     else
         verbose "Files in repo root: $(ls -la "$REPO_DIR" 2>/dev/null | head -5 || echo 'cannot list directory')"
-        if [[ ! -f "$REPO_DIR/CLAUDE.md" ]] && [[ ! -f "$REPO_DIR/README.md" ]]; then
-            fail "Not in Catred Config repository root (missing CLAUDE.md and README.md)"
+        if [[ ! -f "$REPO_DIR/README.md" ]]; then
+            fail "Not in Catred Config repository root (README.md)"
             verbose "Available files: $(ls -la "$REPO_DIR" 2>/dev/null || echo 'cannot list directory')"
             exit 1
         fi
