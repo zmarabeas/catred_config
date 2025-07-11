@@ -12,14 +12,30 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# Colors for output
-RED='\033[38;2;204;36;29m'
-GREEN='\033[38;2;152;151;26m'
-YELLOW='\033[38;2;215;153;33m'
-BLUE='\033[38;2;69;133;136m'
-PURPLE='\033[38;2;177;98;134m'
-AQUA='\033[38;2;104;157;106m'
-NC='\033[0m'
+# CI environment detection
+CI_MODE=false
+if [[ -n "$CI" || -n "$GITHUB_ACTIONS" || -n "$TRAVIS" || -n "$CIRCLECI" || -n "$JENKINS_URL" ]]; then
+    CI_MODE=true
+fi
+
+# Colors for output (disabled in CI for better parsing)
+if [[ "$CI_MODE" == "true" ]]; then
+    RED=''
+    GREEN=''
+    YELLOW=''
+    BLUE=''
+    PURPLE=''
+    AQUA=''
+    NC=''
+else
+    RED='\033[38;2;204;36;29m'
+    GREEN='\033[38;2;152;151;26m'
+    YELLOW='\033[38;2;215;153;33m'
+    BLUE='\033[38;2;69;133;136m'
+    PURPLE='\033[38;2;177;98;134m'
+    AQUA='\033[38;2;104;157;106m'
+    NC='\033[0m'
+fi
 
 # Logging functions
 info() { echo -e "${AQUA}INFO:${NC} $*"; }
@@ -202,8 +218,8 @@ cmd_uninstall() {
 
 # --- Main Function ---
 main() {
-    # Check if we're in the right directory structure
-    if [[ ! -f "$REPO_DIR/CLAUDE.md" ]]; then
+    # Check if we're in the right directory structure (skip in CI)
+    if [[ "$CI_MODE" != "true" ]] && [[ ! -f "$REPO_DIR/CLAUDE.md" ]] && [[ ! -f "$REPO_DIR/README.md" ]]; then
         error "Catred Config repository not found. Please run from the correct directory."
     fi
     

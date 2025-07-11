@@ -4,21 +4,45 @@
 
 set -e
 
-# Colors for output
-RED='\033[38;2;204;36;29m'
-GREEN='\033[38;2;152;151;26m'
-YELLOW='\033[38;2;215;153;33m'
-AQUA='\033[38;2;104;157;106m'
-NC='\033[0m'
+# CI environment detection
+CI_MODE=false
+if [[ -n "$CI" || -n "$GITHUB_ACTIONS" || -n "$TRAVIS" || -n "$CIRCLECI" || -n "$JENKINS_URL" ]]; then
+    CI_MODE=true
+fi
+
+# Colors for output (disabled in CI for better parsing)
+if [[ "$CI_MODE" == "true" ]]; then
+    RED=''
+    GREEN=''
+    YELLOW=''
+    AQUA=''
+    NC=''
+else
+    RED='\033[38;2;204;36;29m'
+    GREEN='\033[38;2;152;151;26m'
+    YELLOW='\033[38;2;215;153;33m'
+    AQUA='\033[38;2;104;157;106m'
+    NC='\033[0m'
+fi
 
 info() { echo -e "${AQUA}INFO:${NC} $*"; }
 success() { echo -e "${GREEN}SUCCESS:${NC} $*"; }
 warning() { echo -e "${YELLOW}WARNING:${NC} $*"; }
 error() { echo -e "${RED}ERROR:${NC} $*"; }
 
-# Configuration
-CONFIG_DIR="$HOME/catred_config"
-THEME_DIR="$CONFIG_DIR/configs"
+# Configuration - detect the correct config directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+# Use repository directory for configs when in CI or when running from repo
+if [[ "$CI_MODE" == "true" ]] || [[ -d "$REPO_DIR/configs" ]]; then
+    CONFIG_DIR="$REPO_DIR"
+    THEME_DIR="$CONFIG_DIR/configs"
+else
+    CONFIG_DIR="$HOME/catred_config"
+    THEME_DIR="$CONFIG_DIR/configs"
+fi
+
 CURRENT_THEME_FILE="$HOME/.config/catred_config/current_theme"
 AVAILABLE_THEMES=("catppuccin-macchiato" "gruvbox" "tokyo-night-storm")
 
