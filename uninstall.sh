@@ -22,6 +22,9 @@ stow -d "/Users/ayo/catred_config/configs/terminals" -t "/Users/ayo/.config" -D 
 
 stow -d "/Users/ayo/catred_config/configs/launchers" -t "/Users/ayo/.config" -D     raycast
 
+info "Removing catred CLI command..."
+sudo rm -f /usr/local/bin/catred
+
 info "Uninstalling packages..."
 brew uninstall stow fish neovim zed yabai skhd sketchybar
 brew uninstall --cask raycast warp ghostty kitty alacritty font-jetbrains-mono-nerd-font
@@ -29,4 +32,4 @@ brew uninstall --cask raycast warp ghostty kitty alacritty font-jetbrains-mono-n
 info "Restoring shell to bash..."
 chsh -s /bin/bash
 
-echo "Uninstall complete. You may need to manually restore backups from /Users/ayo/.config-backup-20250709-004505"
+echo "Uninstall complete. You may need to manually restore backups from /Users/ayo/.config-backup-20250710-214847"

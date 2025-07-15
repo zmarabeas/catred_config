@@ -10,7 +10,32 @@ set -e
 
 # --- Configuration ---
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Determine repository directory
+# When installed globally, we need to find the actual repo location
+if [[ -f "$SCRIPT_DIR/../README.md" ]]; then
+    # Running from scripts/ directory in repo
+    REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+elif [[ -f "$HOME/catred_config/README.md" ]]; then
+    # Standard installation location
+    REPO_DIR="$HOME/catred_config"
+elif [[ -f "$HOME/.config/catred_config/README.md" ]]; then
+    # Alternative installation location
+    REPO_DIR="$HOME/.config/catred_config"
+else
+    # Try to find it in common locations
+    for dir in "$HOME/catred_config" "$HOME/.config/catred_config" "$HOME/dotfiles/catred_config" "/opt/catred_config"; do
+        if [[ -f "$dir/README.md" ]]; then
+            REPO_DIR="$dir"
+            break
+        fi
+    done
+    
+    # If still not found, fallback to script directory parent
+    if [[ -z "$REPO_DIR" ]]; then
+        REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+    fi
+fi
 
 # CI environment detection
 CI_MODE=false
@@ -60,6 +85,9 @@ COMMANDS:
     theme [name]    Switch theme or show current theme
                     Available: catppuccin-macchiato, gruvbox, tokyo-night-storm
     
+    run             Start all environment components (window manager, status bar, etc.)
+    stop            Stop all environment components
+    
     update          Update all components and plugins
     sync            Sync local configuration changes back to repo
     health          Run comprehensive system health check
@@ -70,8 +98,8 @@ COMMANDS:
     version         Show version information
 
 EXAMPLES:
-    catred theme                    # Show current theme
-    catred theme gruvbox           # Switch to gruvbox theme
+    catred run                     # Start environment components
+    catred theme gruvbox           # Switch to gruvbox theme  
     catred health                  # Check system health
     catred update                  # Update all components
 
@@ -216,15 +244,240 @@ cmd_uninstall() {
     fi
 }
 
+cmd_run() {
+    info "Starting Catred Config environment..."
+    
+    # Detect operating system
+    local os
+    os="$(uname -s)"
+    
+    case "$os" in
+        Darwin*)
+            info "Detected macOS - starting yabai, skhd, and SketchyBar..."
+            
+            # Start yabai (window manager)
+            if command -v yabai &> /dev/null; then
+                if ! pgrep -x "yabai" > /dev/null; then
+                    info "Starting yabai..."
+                    yabai --start-service
+                    sleep 2
+                    success "yabai started"
+                else
+                    info "yabai is already running"
+                fi
+            else
+                warning "yabai not found - install with: brew install koekeishiya/formulae/yabai"
+            fi
+            
+            # Start skhd (hotkey daemon)
+            if command -v skhd &> /dev/null; then
+                if ! pgrep -x "skhd" > /dev/null; then
+                    info "Starting skhd..."
+                    skhd --start-service
+                    sleep 1
+                    success "skhd started"
+                else
+                    info "skhd is already running"
+                fi
+            else
+                warning "skhd not found - install with: brew install koekeishiya/formulae/skhd"
+            fi
+            
+            # Start SketchyBar (status bar)
+            if command -v sketchybar &> /dev/null; then
+                if ! pgrep -x "sketchybar" > /dev/null; then
+                    info "Starting SketchyBar..."
+                    sketchybar &
+                    sleep 1
+                    success "SketchyBar started"
+                else
+                    info "SketchyBar is already running"
+                fi
+            else
+                warning "SketchyBar not found - install with: brew install felixkratz/formulae/sketchybar"
+            fi
+            
+            # Optional: Start Raycast (if installed)
+            if command -v raycast &> /dev/null; then
+                info "Raycast detected - you can open it with Cmd+Space"
+            fi
+            ;;
+            
+        Linux*)
+            info "Detected Linux - starting window manager and status bar..."
+            
+            # Check for i3 or sway
+            if command -v i3 &> /dev/null; then
+                if ! pgrep -x "i3" > /dev/null; then
+                    info "Starting i3 window manager..."
+                    i3 &
+                    sleep 2
+                    success "i3 started"
+                else
+                    info "i3 is already running"
+                fi
+            elif command -v sway &> /dev/null; then
+                if ! pgrep -x "sway" > /dev/null; then
+                    info "Starting sway window manager..."
+                    sway &
+                    sleep 2
+                    success "sway started"
+                else
+                    info "sway is already running"
+                fi
+            else
+                warning "No supported window manager found (i3 or sway)"
+            fi
+            
+            # Start polybar (status bar)
+            if command -v polybar &> /dev/null; then
+                local polybar_launch="$REPO_DIR/configs/status-bars/polybar/launch.sh"
+                if [[ -x "$polybar_launch" ]]; then
+                    info "Starting polybar..."
+                    "$polybar_launch"
+                    success "polybar started"
+                else
+                    info "Starting polybar with default config..."
+                    killall -q polybar 2>/dev/null || true
+                    sleep 1
+                    polybar main &
+                    success "polybar started"
+                fi
+            else
+                warning "polybar not found - install with your package manager"
+            fi
+            
+            # Optional: Start rofi (if available)
+            if command -v rofi &> /dev/null; then
+                info "rofi detected - use Alt+d to launch"
+            fi
+            ;;
+            
+        CYGWIN*|MINGW*|MSYS*)
+            info "Detected Windows - starting komorebi and yasb..."
+            
+            # Start komorebi (window manager)
+            if command -v komorebi &> /dev/null; then
+                if ! pgrep -x "komorebi" > /dev/null; then
+                    info "Starting komorebi..."
+                    komorebi &
+                    sleep 2
+                    success "komorebi started"
+                else
+                    info "komorebi is already running"
+                fi
+            else
+                warning "komorebi not found - install from: https://github.com/LGUG2Z/komorebi"
+            fi
+            
+            # Start yasb (status bar)
+            local yasb_launch="$REPO_DIR/configs/status-bars/yasb/launch.ps1"
+            if [[ -f "$yasb_launch" ]]; then
+                info "Starting yasb..."
+                powershell.exe -ExecutionPolicy Bypass -File "$yasb_launch"
+                success "yasb started"
+            else
+                warning "yasb launch script not found"
+            fi
+            ;;
+            
+        *)
+            error "Unsupported operating system: $os"
+            ;;
+    esac
+    
+    success "Environment startup complete!"
+    info "Use 'catred stop' to stop all components"
+}
+
+cmd_stop() {
+    info "Stopping Catred Config environment..."
+    
+    # Detect operating system
+    local os
+    os="$(uname -s)"
+    
+    case "$os" in
+        Darwin*)
+            info "Stopping macOS components..."
+            
+            # Stop SketchyBar
+            if pgrep -x "sketchybar" > /dev/null; then
+                info "Stopping SketchyBar..."
+                killall sketchybar 2>/dev/null || true
+                success "SketchyBar stopped"
+            fi
+            
+            # Stop skhd
+            if pgrep -x "skhd" > /dev/null; then
+                info "Stopping skhd..."
+                skhd --stop-service
+                success "skhd stopped"
+            fi
+            
+            # Stop yabai
+            if pgrep -x "yabai" > /dev/null; then
+                info "Stopping yabai..."
+                yabai --stop-service
+                success "yabai stopped"
+            fi
+            ;;
+            
+        Linux*)
+            info "Stopping Linux components..."
+            
+            # Stop polybar
+            if pgrep -x "polybar" > /dev/null; then
+                info "Stopping polybar..."
+                killall polybar 2>/dev/null || true
+                success "polybar stopped"
+            fi
+            
+            # Note: We don't stop i3/sway as they are typically the main session
+            warning "Note: Window manager (i3/sway) not stopped - use your session manager to exit"
+            ;;
+            
+        CYGWIN*|MINGW*|MSYS*)
+            info "Stopping Windows components..."
+            
+            # Stop yasb
+            if pgrep -x "yasb" > /dev/null; then
+                info "Stopping yasb..."
+                killall yasb 2>/dev/null || true
+                success "yasb stopped"
+            fi
+            
+            # Stop komorebi
+            if pgrep -x "komorebi" > /dev/null; then
+                info "Stopping komorebi..."
+                killall komorebi 2>/dev/null || true
+                success "komorebi stopped"
+            fi
+            ;;
+            
+        *)
+            error "Unsupported operating system: $os"
+            ;;
+    esac
+    
+    success "Environment stopped!"
+}
+
 # --- Main Function ---
 main() {
     # Check if we're in the right directory structure (skip in CI)
     if [[ "$CI_MODE" != "true" ]] && [[ ! -f "$REPO_DIR/README.md" ]]; then
-        error "Catred Config repository not found. Please run from the correct directory."
+        error "Catred Config repository not found at: $REPO_DIR
+Please ensure the repository is cloned to one of these locations:
+  - $HOME/catred_config
+  - $HOME/.config/catred_config
+Or run the command from within the repository directory."
     fi
     
     case "${1:-help}" in
         theme) shift; cmd_theme "$@" ;; # case.*theme
+        run) shift; cmd_run "$@" ;;
+        stop) shift; cmd_stop "$@" ;;
         update) shift; cmd_update "$@" ;;
         sync) shift; cmd_sync "$@" ;;
         health) shift; cmd_health "$@" ;; # case.*health

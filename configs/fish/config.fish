@@ -59,21 +59,49 @@ switch $CATRED_THEME
         source ~/.config/fish/themes/catppuccin-macchiato.fish
 end
 
-# Aliases
+# Aliases - using fallbacks if tools not installed
 alias vim="nvim"
 alias vi="nvim"
-alias cat="bat"
-alias ls="exa --icons"
-alias ll="exa -la --icons"
-alias la="exa -la --icons"
-alias tree="exa --tree --icons"
-alias grep="rg"
-alias find="fd"
-alias ps="procs"
-alias du="dust"
-alias df="duf"
-alias top="btop"
-alias htop="btop"
+
+# Modern CLI tools with fallbacks
+if command -v bat >/dev/null
+    alias cat="bat"
+end
+
+if command -v exa >/dev/null
+    alias ls="exa --icons"
+    alias ll="exa -la --icons"
+    alias la="exa -la --icons"
+    alias tree="exa --tree --icons"
+else
+    alias ll="ls -la"
+    alias la="ls -la"
+end
+
+if command -v rg >/dev/null
+    alias grep="rg"
+end
+
+if command -v fd >/dev/null
+    alias find="fd"
+end
+
+if command -v procs >/dev/null
+    alias ps="procs"
+end
+
+if command -v dust >/dev/null
+    alias du="dust"
+end
+
+if command -v duf >/dev/null
+    alias df="duf"
+end
+
+if command -v btop >/dev/null
+    alias top="btop"
+    alias htop="btop"
+end
 
 # Git aliases
 alias g="git"
@@ -102,8 +130,7 @@ alias datetime="date '+%Y-%m-%d %H:%M:%S'"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-alias ~="cd ~"
-alias -- -="cd -"
+alias home="cd ~"
 
 # System information
 alias sysinfo="neofetch"
